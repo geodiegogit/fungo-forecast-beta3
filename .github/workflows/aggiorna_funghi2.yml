@@ -40,4 +40,3 @@ jobs:
           git add data/previsioni.json data/storico.json data/storico_indici.json
           git commit -m "Auto-update previsioni meteo funghi [skip ci]" || exit 0
           git push
-
