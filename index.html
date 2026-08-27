@@ -68,7 +68,7 @@
 <body>
 
     <header>
-        <h1>🍄 San Siro Porcini 2</h1>
+        <h1>🍄 San Siro Porcini</h1>
         <div class="update-time" id="last-update">Aggiornamento...</div>
     </header>
 
@@ -81,7 +81,7 @@
 
         <div class="card hidden" id="card-senescenza" style="background: #fff3e0; border: 1px solid #ffcc80;">
             <h2 class="section-title" style="color: #e65100; border-bottom-color: #ffb74d;">⚠️ Allerta Caldo Estremo</h2>
-            <p style="font-size: 0.85rem; margin-bottom: 10px;">L'algoritmo ha rilevato notti tropicali negli ultimi giorni. Hai notato una senescenza parziale (caduta foglie ~20%) nel bosco?</p>
+            <p id="senescenza-motivo" style="font-size: 0.85rem; margin-bottom: 10px;">Caricamento...</p>
             <label style="font-weight: bold; color: #d84315; cursor: pointer; display: flex; align-items: center; gap: 8px;">
                 <input type="checkbox" id="toggle-senescenza" onchange="aggiornaTutto();" style="transform: scale(1.5);">
                 Sì, applica penalità di stress vitale
@@ -158,10 +158,11 @@
     <script>
         // --- SOSTITUISCI CON IL TUO USERNAME/REPO PER OGNI APP (questa e la nuova) ---
         const GITHUB_USERNAME = "geodiegogit";
-        const REPO_NAME = "fungo-forecast2";
+        const REPO_NAME = "fungo-forecast";
         const DATA_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/data/previsioni.json`;
 
         let globalData = null;
+        let senescenzaAutoImpostata = false;
 
         function formatDDMM(dateString) {
             const parts = dateString.split('T')[0].split('-');
@@ -185,10 +186,14 @@
         }
 
         function getMeteoIcon(p, v, tmin) {
+            // Sotto 0.2mm consideriamo il valore rumore del sensore (rugiada,
+            // condensa nel pluviometro), non vera pioggia: altrimenti il sole
+            // non compare quasi mai.
+            const SOGLIA_PIOGGIA_REALE = 0.2;
             if (p > 10) return '🌧️';
-            if (p > 0) return '🌦️';
+            if (p >= SOGLIA_PIOGGIA_REALE) return '🌦️';
             if (v > 25) return '💨';
-            if (tmin < 5 && p === 0) return '❄️';
+            if (tmin < 5 && p < SOGLIA_PIOGGIA_REALE) return '❄️';
             return '☀️';
         }
 
@@ -339,6 +344,66 @@
             return colors[p] || colors[0];
         }
 
+        const ESPOSIZIONE_LABEL = {
+            "SE": "esposta Sud-Est, soleggiata",
+            "NE": "esposta Nord-Est, più fresca",
+            "OVEST_OMBRA": "esposta Ovest, in ombra",
+            "NORD": "esposta Nord, fresca e umida"
+        };
+
+        // ---------------------------------------------------------------
+        // Genera il consiglio del Fungiatt indicando le zone migliori DEL
+        // GIORNO, ciascuna con la propria quota ed esposizione, invece di un
+        // unico consiglio generico per tutta la montagna. Usa lo stesso
+        // indice mostrato nelle card sotto, quindi resta sempre coerente.
+        // ---------------------------------------------------------------
+        function generaCappello(diag) {
+            if (diag.senescenza_confermata_stagione) {
+                return "🍂 Annata con senescenza fogliare confermata: gli alberi cedono meno zuccheri al simbionte, sviluppo rallentato per tutta la stagione.";
+            }
+            if (diag.siccita_prolungata) {
+                return "🍂 Anticiclone prolungato in corso: il bosco è in debito idrico e lo sviluppo è rallentato.";
+            }
+            if (diag.t_min_attuale < 6) {
+                return "🥶 Fa frècc di notte! Meglio le quote basse ben esposte.";
+            }
+            if (diag.vento_max_attuale > 25 && diag.rh_media_attuale < 55) {
+                return "💨 Vento secco sui versanti aperti: meglio i punti riparati.";
+            }
+            return "🧭 Ecco cosa consiglia oggi il fungiatt:";
+        }
+
+        function generaConsiglioFungiatt(data, isSenescenzaAttiva) {
+            const diag = data.diagnosi_meteo;
+
+            if (!diag.evento_rilevato) {
+                return "Il bosco è secco e in attesa. 🍂 L'unica speranza è cercare le zone con sorgenti sotterranee (Camnasco) o aspettare la pioggia.";
+            }
+
+            const zoneOggi = data.zone
+                .map(z => ({ zona: z, indice: calcolaProiezioneZona(z, 1, { isSenescenzaAttiva }) }))
+                .sort((a, b) => b.indice - a.indice);
+
+            const SOGLIA_CONSIGLIO = 25;
+            const migliori = zoneOggi.filter(zo => zo.indice >= SOGLIA_CONSIGLIO).slice(0, 3);
+
+            const cappello = generaCappello(diag);
+
+            if (migliori.length === 0) {
+                const top = zoneOggi[0];
+                const esp = ESPOSIZIONE_LABEL[top.zona.esposizione] || '';
+                return `${cappello}<br><br>Oggi nessuna zona sembra ancora pronta. La più vicina è <b>${top.zona.zona}</b> (~${top.zona.quota_m}m, ${esp}): indice ${Math.round(top.indice)}%, ${top.zona.stato.toLowerCase()}.`;
+            }
+
+            const righe = migliori.map(zo => {
+                const z = zo.zona;
+                const esp = ESPOSIZIONE_LABEL[z.esposizione] || '';
+                return `🎯 <b>${z.zona}</b> (~${z.quota_m}m, ${esp}): indice ${Math.round(zo.indice)}% — ${z.stato}.`;
+            }).join('<br>');
+
+            return `${cappello}<br><br>Le zone migliori per oggi:<br>${righe}`;
+        }
+
         function renderDashboard() {
             const data = globalData;
             let ultimoDato = data.storico_completo[data.storico_completo.length - 1].data;
@@ -355,53 +420,36 @@
 
             if (diag.rischio_senescenza) {
                 document.getElementById('card-senescenza').classList.remove('hidden');
+
+                let motivoParts = [];
+                if (diag.notti_tropicali_15gg >= 2) {
+                    motivoParts.push(`${diag.notti_tropicali_15gg} notti tropicali negli ultimi 15 giorni`);
+                }
+                if (diag.siccita_prolungata) {
+                    motivoParts.push(`${diag.giorni_caldo_secco_35gg} giorni caldo-secco negli ultimi 35`);
+                }
+                const motivoRilevamento = motivoParts.length ? `Rilevato: ${motivoParts.join(' e ')}. ` : '';
+
+                let motivoHtml;
+                if (diag.senescenza_confermata_stagione) {
+                    motivoHtml = `${motivoRilevamento}<br><b>Senescenza fogliare confermata per questa stagione</b> (rilevata il ${formatDDMM(diag.senescenza_data_rilevamento)}). ` +
+                        `Il Boletus edulis è simbionte: dipende dagli zuccheri ceduti dalla pianta ospite tramite le radici. Un albero che ha perso anticipatamente parte delle foglie ne produce meno per tutto il resto della stagione, anche dopo piogge abbondanti — le foglie non ricrescono ad agosto. Per questo la penalità resta attiva anche se il terreno si è riasciugato.`;
+                } else {
+                    motivoHtml = motivoRilevamento + "Hai notato una senescenza parziale (caduta foglie) nel bosco? Il modello ha già attivato la penalità in base ai dati; togli la spunta se non la vedi confermata sul campo.";
+                }
+                document.getElementById('senescenza-motivo').innerHTML = motivoHtml;
+
+                if (!senescenzaAutoImpostata) {
+                    document.getElementById('toggle-senescenza').checked = true;
+                    senescenzaAutoImpostata = true;
+                }
             } else {
                 document.getElementById('card-senescenza').classList.add('hidden');
             }
 
             let isSenescenzaAttiva = document.getElementById('toggle-senescenza') ? document.getElementById('toggle-senescenza').checked : false;
 
-            let consiglio = "";
-            let tmin = diag.t_min_attuale;
-            let vento = diag.vento_max_attuale;
-            let rh = diag.rh_media_attuale;
-
-            if (isSenescenzaAttiva && ggDaEvento !== null) {
-                consiglio = "🍂 Il bosco è in senescenza parziale. Le betulle stanno risparmiando energia. La buttata sarà ritardata e meno intensa del solito, concentrati sulle zone più umide.";
-            } else if (ggDaEvento === null) {
-                consiglio = "Il bosco è secco e in attesa. 🍂 L'unica speranza è cercare le zone con sorgenti sotterranee (Camnasco) o aspettare la pioggia.";
-            } else if (tmin < 6) {
-                consiglio = "Fa frècc di notte! 🥶 Lascia perdere le cime alte. Stai sotto i 1000m nei boschi ben esposti al sole (Sud/Sud-Est) per trovare l'habitat giusto.";
-            } else if (vento > 25 && rh < 55) {
-                consiglio = "Attento al vento secco! 💨 Ha asciugato i versanti aperti. Cerca rifugio nell'anfiteatro dei Faggi a Ovest (Sant'Amate) che è protetto dal Favonio.";
-            } else if (ggDaEvento <= 5) {
-                consiglio = "La buttata si sta svegliando! 🌱 L'onda parte dal basso: punta tra i 700 e i 950m tra castagni e betulle, cercando i versanti baciati dal sole (Sud-Est).";
-            } else if (ggDaEvento > 5 && ggDaEvento <= 9) {
-                consiglio = "Siamo nel momento d'oro delle quote medie! 🍄 Esplora tra i 1000m e i 1300m (betulle e primi faggi). Le esposizioni Est e Sud-Est sono il top.";
-            } else if (ggDaEvento > 9 && ggDaEvento <= 14) {
-                consiglio = "L'onda sta salendo! 🌲 Le quote basse si asciugano. Spostati sui 1400-1500m nei faggi, provando anche le zone fresche a Nord-Est.";
-            } else {
-                consiglio = "Siamo a fine ciclo. I funghi superstiti li trovi in alto (sopra i 1500m), nei boschi bui o protetti dai pini (habitat del Pinophilus). 🏔️";
-            }
-
-            // --- CALCOLO DINAMICO DELL'ONDA ALTITUDINALE ---
-            if (ggDaEvento !== null && ggDaEvento >= 5 && !isSenescenzaAttiva && tmin >= 6) {
-
-                // La formula: parte da 1440m al giorno 6 e scende di 40 metri al giorno
-                let quotaDinamica = 1440 - ((ggDaEvento - 6) * 40);
-
-                // Mettiamo dei "paletti" fisici per non far uscire l'onda dalla tua montagna
-                if (quotaDinamica > 1550) quotaDinamica = 1550;
-                if (quotaDinamica < 700) quotaDinamica = 700;
-
-                // Arrotondiamo ai 50 metri più vicini (es. 1200m, 1250m) per renderlo leggibile
-                let quotaArrotondata = Math.round(quotaDinamica / 50) * 50;
-
-                // Aggiungiamo il mirino al consiglio del giorno
-                consiglio += `<br><br>🎯 <b>Il Mirino Altitudinale:</b> L'onda termica si sta muovendo. Oggi ti consiglio di tagliare il versante "in costa", mantenendoti rigorosamente intorno a quota <b>${quotaArrotondata} metri</b>.`;
-            }
-
-            document.getElementById('consiglio-text').innerHTML = consiglio;
+            document.getElementById('consiglio-text').innerHTML = generaConsiglioFungiatt(data, isSenescenzaAttiva);
 
             const zc = document.getElementById('zone-container');
             zc.innerHTML = '';
