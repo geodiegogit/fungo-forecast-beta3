@@ -162,17 +162,50 @@ def stima_et_giornaliera(t_media: float) -> float:
     durata del giorno che non abbiamo), ma una curva monotona crescente con
     la temperatura pensata per dare un'idea approssimativa di quanta della
     pioggia caduta viene "restituita" all'atmosfera invece di restare nel
-    terreno. I coefficienti sono un primo tentativo: vanno idealmente tarati
-    confrontando negli anni l'indice previsto con i ritrovamenti reali.
+    terreno. Usata solo a scopo informativo/diagnostico: la classificazione
+    della siccità usa invece i "giorni caldo-secco" (vedi sotto), che si sono
+    rivelati più robusti su un caso reale di anticiclone prolungato dove il
+    bilancio pioggia-ET risultava quasi in pareggio pur in presenza di stress
+    vegetativo evidente (senescenza fogliare anticipata).
     """
     if t_media <= 0:
         return 0.0
     return 0.02 * (t_media ** 1.6)
 
 
+def conta_giorni_caldo_secco(serie: List[Dict[str, Any]], ini: int, fine: int,
+                              soglia_pioggia: float = 2.0, soglia_tmax: float = 24.0) -> int:
+    """Conta, nella finestra [ini, fine), i giorni con pochissima pioggia e
+    caldo: è il proxy usato per riconoscere un anticiclone prolungato (tipo
+    quello africano) che stressa i boschi anche quando il bilancio pioggia-ET
+    non risulta drammaticamente negativo (perché qualche pioggia sporadica
+    'spezza' il conteggio ma non basta a reidratare davvero il terreno)."""
+    ini = max(0, ini)
+    fine = max(ini, fine)
+    return sum(1 for k in range(ini, fine)
+               if serie[k]["pioggia_mm"] < soglia_pioggia and serie[k].get("t_max", 0) >= soglia_tmax)
+
+
 class AnalizzatoreSiccitaPorcini:
+    GIORNI_FINESTRA_SICCITA = 35   # ampiezza della finestra di "memoria" del bosco
+
     def __init__(self, soglia_evento: float = 35.0):
         self.soglia_evento = soglia_evento
+
+    def _soglia_e_smorzamento(self, giorni_caldo_secco: int):
+        """Più lungo è stato lo stress caldo-secco pregresso, più grande deve
+        essere la pioggia per considerarsi un vero 'reset' della siccità, e
+        più la buttata risultante resta comunque ritardata e attenuata anche
+        quando l'evento la supera (il micelio/l'albero non si riprendono
+        istantaneamente). Caso reale che ha guidato la taratura: dopo ~5
+        settimane di anticiclone (17-18 giorni caldo-secco su 35), una pioggia
+        di 55.8mm concentrata in un solo giorno non ha prodotto nulla, mentre
+        un evento di 93mm distribuito su 3 giorni pochi giorni dopo sì."""
+        if giorni_caldo_secco >= 12:
+            return 70.0, 10, 0.50    # siccità severa e prolungata (es. anticiclone africano)
+        if giorni_caldo_secco >= 6:
+            return 45.0, 5, 0.75     # siccità moderata
+        return self.soglia_evento, 0, 1.00   # condizioni normali
 
     def analizza(self, serie: List[Dict[str, Any]]) -> Dict[str, Any]:
         if not serie:
@@ -186,34 +219,18 @@ class AnalizzatoreSiccitaPorcini:
         while i < n:
             finestra = serie[i - 2:i + 1]
             c3 = sum(g["pioggia_mm"] for g in finestra)
-            if c3 >= self.soglia_evento:
-                # Individuiamo il giorno di picco DIRETTAMENTE dall'indice nella
-                # finestra (invece di ri-cercarlo con list.index sui valori,
-                # che in teoria può confondersi con giorni dai valori identici).
-                idx_rel, giorno_max = max(enumerate(finestra), key=lambda t: t[1]["pioggia_mm"])
-                idx = i - 2 + idx_rel
 
+            # Individuiamo il giorno di picco DIRETTAMENTE dall'indice nella
+            # finestra (invece di ri-cercarlo con list.index sui valori, che
+            # in teoria può confondersi con giorni dai valori identici).
+            idx_rel, giorno_max = max(enumerate(finestra), key=lambda t: t[1]["pioggia_mm"])
+            idx = i - 2 + idx_rel
+
+            giorni_cs = conta_giorni_caldo_secco(serie, idx - self.GIORNI_FINESTRA_SICCITA - 2, idx - 2)
+            soglia_dinamica, ritardo, smorz = self._soglia_e_smorzamento(giorni_cs)
+
+            if c3 >= soglia_dinamica:
                 if not eventi_trovati or (idx - eventi_trovati[-1]["indice"]) >= 4:
-                    ini = max(0, idx - 32)
-                    fine = max(0, idx - 2)
-                    p_pre_30 = sum(serie[k]["pioggia_mm"] for k in range(ini, fine))
-                    et_pre_30 = sum(stima_et_giornaliera(serie[k].get("t_media", 15.0))
-                                     for k in range(ini, fine))
-                    bilancio_pre_30 = p_pre_30 - et_pre_30
-
-                    # Calcolo biologico del potenziale post-siccità, ora basato
-                    # su un bilancio pioggia-ET approssimato invece che sulla
-                    # sola pioggia cumulata (che sovrastima l'acqua realmente
-                    # disponibile nei periodi caldi).
-                    if bilancio_pre_30 < 0.0:
-                        ritardo, soglia, smorz = 12, 60.0, 0.30
-                    elif 0.0 <= bilancio_pre_30 < 15.0:
-                        ritardo, soglia, smorz = 7, 50.0, 0.70
-                    elif 15.0 <= bilancio_pre_30 < 45.0:
-                        ritardo, soglia, smorz = 3, 40.0, 0.90
-                    else:
-                        ritardo, soglia, smorz = 0, 35.0, 1.00
-
                     giorni_da_ev = (n - 1) - idx
 
                     giorni_favonio = sum(1 for k in range(idx + 1, n)
@@ -226,10 +243,10 @@ class AnalizzatoreSiccitaPorcini:
                         "indice": idx,
                         "data": giorno_max["data"],
                         "pioggia": c3,
-                        "bilancio_pre_30": round(bilancio_pre_30, 1),
+                        "giorni_caldo_secco_pregressi": giorni_cs,
                         "giorni_da_evento": giorni_da_ev,
                         "ritardo": ritardo,
-                        "soglia": soglia,
+                        "soglia": soglia_dinamica,
                         "smorzamento": smorz * danno_favonio
                     })
                 i += 3
@@ -243,7 +260,16 @@ class AnalizzatoreSiccitaPorcini:
         # allerta anche a ottobre).
         finestra_recente = serie[-FINESTRA_SENESCENZA_GG:]
         notti_tropicali = sum(1 for d in finestra_recente if d.get("t_min", 0) >= 19.0)
-        rischio_senescenza = notti_tropicali >= 2
+
+        # Siccità prolungata "ad oggi": stessa logica usata per gli eventi,
+        # ma calcolata sugli ultimi giorni della serie invece che prima di un
+        # evento di pioggia. È quella che ha causato la senescenza fogliare
+        # anticipata delle betulle quest'anno (anticiclone africano).
+        giorni_caldo_secco_attuali = conta_giorni_caldo_secco(
+            serie, n - self.GIORNI_FINESTRA_SICCITA, n)
+        siccita_prolungata = giorni_caldo_secco_attuali >= 12
+
+        rischio_senescenza = notti_tropicali >= 2 or siccita_prolungata
 
         diag = {
             "t_max_attuale": giorno_ieri["t_max"],
@@ -252,7 +278,10 @@ class AnalizzatoreSiccitaPorcini:
             "vento_max_attuale": giorno_ieri["vento_max"],
             "pioggia_oggi": giorno_ieri["pioggia_mm"],
             "eventi": eventi_trovati,
-            "rischio_senescenza": rischio_senescenza
+            "rischio_senescenza": rischio_senescenza,
+            "notti_tropicali_15gg": notti_tropicali,
+            "giorni_caldo_secco_35gg": giorni_caldo_secco_attuali,
+            "siccita_prolungata": siccita_prolungata
         }
 
         if not eventi_trovati:
@@ -371,6 +400,9 @@ def calcola_microzone(diag: Dict[str, Any], quota_stazione: int = QUOTA_STAZIONE
 
         res.append({
             "zona": z["nome"],
+            "quota_m": z["quota"],
+            "esposizione": z["esposizione"],
+            "essenza": z["essenza"],
             "indice_buttata": round(indice_totale, 1),
             "t_min_stimata": round(t_min_eff, 1),
             "t_max_stimata": round(t_max_eff, 1),
@@ -411,6 +443,49 @@ def aggiorna_storico_indici(data_riferimento: str, zone: List[Dict[str, Any]],
     return storico
 
 
+def gestisci_stato_stagionale(data_riferimento: str, siccita_prolungata_oggi: bool,
+                               giorni_caldo_secco_oggi: int,
+                               path: str = "data/stagione.json") -> Dict[str, Any]:
+    """Il Boletus edulis è un simbionte micorrizico: dipende dagli zuccheri
+    ceduti dalla pianta ospite via le radici, non solo dall'umidità del
+    terreno. Se l'albero va in stress idrico e perde anticipatamente parte
+    delle foglie (osservato negli ultimi due anni, mai prima), la sua
+    capacità fotosintetica resta ridotta per TUTTO il resto della stagione:
+    le foglie perse non ricrescono ad agosto/settembre, anche se poi piove
+    tanto e il terreno si reidrata.
+
+    Per questo la "senescenza confermata" va ricordata in un file persistente
+    e non si disattiva più con una pioggia successiva — a differenza della
+    soglia dinamica sugli eventi di pioggia, che invece è correttamente
+    reversibile (quella riguarda l'acqua nel suolo, non la fisiologia della
+    pianta). Lo stato si azzera solo al cambio di anno solare.
+    """
+    anno = data_riferimento[:4]
+    stato = {"anno": anno, "senescenza_confermata": False,
+             "data_rilevamento": None, "giorni_caldo_secco_max": 0}
+
+    try:
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                salvato = json.load(f)
+            if salvato.get("anno") == anno:
+                stato = salvato
+    except (FileNotFoundError, json.JSONDecodeError):
+        pass
+
+    stato["giorni_caldo_secco_max"] = max(stato.get("giorni_caldo_secco_max", 0), giorni_caldo_secco_oggi)
+
+    if siccita_prolungata_oggi and not stato["senescenza_confermata"]:
+        stato["senescenza_confermata"] = True
+        stato["data_rilevamento"] = data_riferimento
+        print(f"[INFO] Senescenza fogliare confermata per la stagione {anno} "
+              f"il {data_riferimento} (giorni caldo-secco: {giorni_caldo_secco_oggi}).")
+
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(stato, f, ensure_ascii=False, indent=2)
+    return stato
+
+
 def main():
     print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Connessione ARPA...")
 
@@ -448,6 +523,21 @@ def main():
 
     analizzatore = AnalizzatoreSiccitaPorcini()
     diagnosi = analizzatore.analizza(storico_finale)
+
+    os.makedirs("data", exist_ok=True)
+    stato_stagionale = gestisci_stato_stagionale(
+        storico_finale[-1]["data"],
+        diagnosi.get("siccita_prolungata", False),
+        diagnosi.get("giorni_caldo_secco_35gg", 0)
+    )
+    diagnosi["senescenza_confermata_stagione"] = stato_stagionale["senescenza_confermata"]
+    diagnosi["senescenza_data_rilevamento"] = stato_stagionale["data_rilevamento"]
+    # Una volta confermata, la senescenza resta "vera" per tutta la stagione
+    # anche se il conteggio mobile dei giorni caldo-secco scende sotto
+    # soglia dopo piogge successive: la pianta non recupera le foglie perse.
+    if stato_stagionale["senescenza_confermata"]:
+        diagnosi["rischio_senescenza"] = True
+
     previsioni = calcola_microzone(diagnosi)
 
     storico_indici = aggiorna_storico_indici(storico_finale[-1]["data"], previsioni)
@@ -461,7 +551,6 @@ def main():
         "storico_indici": storico_indici
     }
 
-    os.makedirs("data", exist_ok=True)
     with open("data/previsioni.json", "w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
 
