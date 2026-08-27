@@ -63,6 +63,13 @@ def get_sensor_ids_for_station(id_stazione: str) -> Dict[str, str]:
             categoria = "temperatura"
         elif "umidit" in tipo:
             categoria = "umidita"
+        elif "direzione" in tipo:
+            # La "Direzione Vento" (gradi 0-360) contiene spesso la parola
+            # "vento" nella tipologia esattamente come "Velocità Vento":
+            # va esclusa esplicitamente, altrimenti rischia di sovrascrivere
+            # il sensore di velocità (bug osservato: vento_max > 1000 km/h,
+            # in realtà erano gradi moltiplicati per 3.6).
+            continue
         elif "vento" in tipo or "velocit" in tipo:
             categoria = "vento"
         if categoria is None or ids is None:
@@ -129,6 +136,13 @@ def aggregate_daily(df_hourly: pd.DataFrame) -> List[Dict[str, Any]]:
     serie = []
     for _, row in df_daily.iterrows():
         vento_kmh = row.get("vento_max", 0.0) * 3.6 if pd.notna(row.get("vento_max")) else 10.0
+        if vento_kmh > 200.0:
+            # Un vento sopra i 200 km/h è fisicamente assurdo per la zona:
+            # quasi certamente il sensore mappato non è la velocità del vento
+            # (es. sta leggendo la direzione in gradi). Segnaliamolo forte nei
+            # log invece di pubblicare dati palesemente sbagliati in silenzio.
+            print(f"[ATTENZIONE] vento_max sospetto ({vento_kmh:.1f} km/h) il {row['giorno']}: "
+                  f"controllare il mapping del sensore 'vento'.")
         serie.append({
             "data": row["giorno"],
             "pioggia_mm": round(float(row.get("pioggia_sum", 0.0)), 1),
