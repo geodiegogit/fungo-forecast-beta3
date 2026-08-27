@@ -3,7 +3,7 @@ name: Aggiornamento Previsioni Funghi
 on:
   schedule:
     # Esegue ogni notte alle 02:00 UTC (04:00 ora italiana estiva)
-    - cron: '0 2 * * *'
+    - cron: '0 3 * * *'
   workflow_dispatch:
 
 permissions:
@@ -35,6 +35,12 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          # storico_indici.json: confronto previsione vs ritrovamenti nel tempo.
+          # stagione.json: memoria persistente della senescenza fogliare
+          # confermata (non si resetta con la prima pioggia successiva).
+          git add data/previsioni.json data/storico.json data/storico_indici.json data/stagione.json
+          git commit -m "Auto-update previsioni meteo funghi [skip ci]" || exit 0
+          git push          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           # storico_indici.json è nuovo: serve a confrontare nel tempo
           # "cosa prevedeva il modello" con i ritrovamenti reali.
           git add data/previsioni.json data/storico.json data/storico_indici.json
