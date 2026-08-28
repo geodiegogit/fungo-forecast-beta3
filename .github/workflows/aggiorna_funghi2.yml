@@ -2,8 +2,8 @@ name: Aggiornamento Previsioni Funghi 2
 
 on:
   schedule:
-    # Esegue ogni notte alle 02:00 UTC (04:00 ora italiana estiva)
-    - cron: '13 1 * * *'
+    # Esegue ogni notte alle 01:35 UTC (03:35 ora italiana estiva)
+    - cron: '35 1 * * *'
   workflow_dispatch:
 
 permissions:
