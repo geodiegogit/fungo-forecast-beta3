@@ -439,5 +439,14 @@
     "t_min": 15.3,
     "rh_media": 71.2,
     "vento_max": 17.8
+  },
+  {
+    "data": "2026-08-31",
+    "pioggia_mm": 0.0,
+    "t_media": 19.1,
+    "t_max": 23.0,
+    "t_min": 16.2,
+    "rh_media": 67.5,
+    "vento_max": 17.5
   }
 ]
