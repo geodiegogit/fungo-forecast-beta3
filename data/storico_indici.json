@@ -68,5 +68,15 @@
       "Faggi Ovest": 0.0,
       "Abeti Nord": 0.0
     }
+  },
+  {
+    "data": "2026-09-01",
+    "zone": {
+      "Camnasco": 0.1,
+      "Betulle SE": 0.0,
+      "Betulle NE": 0.6,
+      "Faggi Ovest": 0.0,
+      "Abeti Nord": 0.0
+    }
   }
 ]
