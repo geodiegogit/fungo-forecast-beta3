@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Previsioni Funghi</title>
-
+    
     <meta name="theme-color" content="#2E7D32">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2855/2855013.png">
-
+    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    
     <style>
         :root {
             --bg-color: #f4f7f6; --primary: #2E7D32; --card-bg: #ffffff;
@@ -38,7 +38,7 @@
         .zona-info h3 { font-size: 1rem; margin-bottom: 4px; }
         .zona-stato { font-size: 0.8rem; color: var(--text-light); }
         .progress-circle { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85rem; border: 1px solid #e0e0e0; }
-
+        
         .btn-trovati { background: #ffecb3; border: 1px solid #ffc107; border-radius: 20px; padding: 4px 10px; font-size: 0.75rem; cursor: pointer; font-weight: bold; margin-top: 5px; display: inline-block; color: #d84315; }
 
         .cal-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; font-size: 0.9rem; }
@@ -47,33 +47,29 @@
         .cal-icon { width: 25px; text-align: center; font-size: 1.1rem; }
         .cal-data { flex-grow: 1; text-align: right; color: var(--text-light); font-size: 0.85rem; padding-right: 5px;}
         .cal-diario { width: 25px; text-align: center; font-size: 1.1rem; }
-
+        
         .cal-header { font-size: 0.75rem; font-weight: bold; color: var(--text-light); border-bottom: 2px solid #ddd; padding-bottom: 5px;}
         .future-zones { display: flex; gap: 4px; justify-content: flex-end; flex-grow: 1; }
         .z-label { width: 38px; text-align: center; }
         .future-dot { width: 38px; height: 26px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: bold; border: 1px solid #e0e0e0;}
-
+        
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); }
         .nav-btn { flex: 1; padding: 15px 0; text-align: center; background: none; border: none; font-size: 1rem; color: var(--text-light); font-weight: bold; }
         .nav-btn.active { color: var(--primary); border-bottom: 3px solid var(--primary); }
         .chart-container { position: relative; height: 200px; width: 100%; }
         .hidden { display: none; }
         .cal-date.domenica { color: #d32f2f !important; font-weight: 900; }
-
-        .btn-secondario { background: #eef3ef; border: 1px solid #cfe0d2; border-radius: 20px; padding: 6px 12px; font-size: 0.75rem; cursor: pointer; font-weight: bold; color: var(--primary); }
-        .riga-backup { display: flex; gap: 10px; margin-top: 10px; align-items: center; }
-        .taratura-riga { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 0.85rem; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>🍄 Meteo Porc claude</h1>
+        <h1>🍄 DIEGO Porcini Beta2</h1>
         <div class="update-time" id="last-update">Aggiornamento...</div>
     </header>
 
     <div class="container" id="tab-dashboard">
-
+        
         <div class="card">
             <h2 class="section-title">Stato Terreno & Siccità (Fino a Ieri)</h2>
             <div id="siccita-text" style="font-size: 0.9rem; line-height: 1.4;">Caricamento...</div>
@@ -81,7 +77,7 @@
 
         <div class="card hidden" id="card-senescenza" style="background: #fff3e0; border: 1px solid #ffcc80;">
             <h2 class="section-title" style="color: #e65100; border-bottom-color: #ffb74d;">⚠️ Allerta Caldo Estremo</h2>
-            <p id="senescenza-motivo" style="font-size: 0.85rem; margin-bottom: 10px;">Caricamento...</p>
+            <p style="font-size: 0.85rem; margin-bottom: 10px;">L'algoritmo ha rilevato notti tropicali prolungate nello storico. Hai notato una senescenza parziale (caduta foglie ~20%) nel bosco?</p>
             <label style="font-weight: bold; color: #d84315; cursor: pointer; display: flex; align-items: center; gap: 8px;">
                 <input type="checkbox" id="toggle-senescenza" onchange="aggiornaTutto();" style="transform: scale(1.5);">
                 Sì, applica penalità di stress vitale
@@ -98,8 +94,34 @@
         <div class="card">
             <h2 class="section-title">Indice di Buttata Oggi (Proiezione)</h2>
             <div id="zone-container"></div>
+            <!-- LEGENDA FASI VITALI -->
+            <div style="margin-top: 15px; padding-top: 12px; border-top: 1px solid #eee; font-size: 0.8rem; color: #555; line-height: 1.4;">
+                <div style="margin-bottom: 6px; font-weight: bold; color: var(--primary);">📊 Legenda Fasi Vitali:</div>
+                
+                <div style="display: flex; align-items: center; margin-bottom: 4px;">
+                    <div style="width: 14px; height: 14px; background: #EEEEEE; border: 1px solid #BDBDBD; border-radius: 3px; margin-right: 8px; flex-shrink: 0;"></div>
+                    <div><b>Grigio (0-25%):</b> Incubazione. Il micelio lavora sottoterra, non c'è nulla da vedere.</div>
+                </div>
+                
+                <div style="display: flex; align-items: center; margin-bottom: 4px;">
+                    <div style="width: 14px; height: 14px; background: #A5D6A7; border: 1px solid #81C784; border-radius: 3px; margin-right: 8px; flex-shrink: 0;"></div>
+                    <div><b>Verde Chiaro (30-55%):</b> La Spuntata. I funghi bucano il terreno e iniziano lo sviluppo.</div>
+                </div>
+                
+                <div style="display: flex; align-items: center; margin-bottom: 4px;">
+                    <div style="width: 14px; height: 14px; background: #00E676; border: 1px solid #00C853; border-radius: 3px; margin-right: 8px; flex-shrink: 0;"></div>
+                    <div><b>Verde Brillante (60-100%):</b> Il Picco. Esplosione massima, esemplari al top del vigore.</div>
+                </div>
+                
+                <div style="display: flex; align-items: center;">
+                    <div style="width: 14px; height: 14px; background: #689F38; border: 1px solid #33691E; border-radius: 3px; margin-right: 8px; flex-shrink: 0;"></div>
+                    <div><b>Verde Scuro/Marrone (In discesa):</b> Maturazione e senescenza. Cerca i "cappelloni" a fine ciclo.</div>
+                </div>
+            </div>
+            <!-- FINE LEGENDA -->  
         </div>
 
+        
         <div class="card">
             <h2 class="section-title">Meteo Stazione Ieri (1285m)</h2>
             <div class="meteo-grid">
@@ -121,29 +143,15 @@
             <p style="font-size: 0.8rem; color: #666; margin-bottom: 10px;">Calcolo matematico dinamico sulle onde di buttata.</p>
             <div id="future-calendar"></div>
         </div>
-
-        <div class="card">
-            <h2 class="section-title">🔬 Taratura Modello</h2>
-            <p style="font-size: 0.8rem; color: #666; margin-bottom: 10px;">Per ogni ritrovamento che segni con "🍄 Trovati!", qui vedi quanto il modello aveva previsto quel giorno per quella zona. Utile per capire se l'algoritmo è troppo prudente o troppo ottimista, e per confrontarlo nel tempo con l'altra app.</p>
-            <div id="taratura-container"></div>
-        </div>
-
         <div class="card">
             <h2 class="section-title">Storico Dati Certi (ARPA - Ultimi 60 gg)</h2>
             <div id="past-calendar"></div>
-            <div class="riga-backup">
-                <button class="btn-secondario" onclick="esportaDiario()">⬇️ Esporta diario</button>
-                <label class="btn-secondario" style="cursor:pointer;">
-                    ⬆️ Importa diario
-                    <input type="file" accept="application/json" onchange="importaDiario(event)" style="display:none;">
-                </label>
-            </div>
         </div>
     </div>
 
     <div class="container hidden" id="tab-meteo">
         <div class="card">
-            <h2 class="section-title">Meteo 4 Giorni (Open-Meteo)</h2>
+            <h2 class="section-title">Meteo 7 Giorni (Open-Meteo)</h2>
             <p style="font-size: 0.8rem; color: #666; margin-bottom: 10px;">Dati orari centrati su Betulle Sud-Est (Quota 1.222m).</p>
             <div id="forecast-container">Caricamento previsioni in corso...</div>
         </div>
@@ -156,13 +164,12 @@
     </div>
 
     <script>
-        // --- SOSTITUISCI CON IL TUO USERNAME/REPO PER OGNI APP (questa e la nuova) ---
-        const GITHUB_USERNAME = "geodiegogit";
-        const REPO_NAME = "fungo-forecast2";
+// --- SOSTITUISCI CON IL TUO USERNAME ---
+        const GITHUB_USERNAME = "geodiegogit"; 
+        const REPO_NAME = "fungo-forecast-beta2"; 
         const DATA_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/data/previsioni.json`;
 
         let globalData = null;
-        let senescenzaAutoImpostata = false;
 
         function formatDDMM(dateString) {
             const parts = dateString.split('T')[0].split('-');
@@ -176,135 +183,89 @@
             const lunaNuova = new Date('2024-01-11T11:57:00Z');
             const giorniTrasc = (date - lunaNuova) / 86400000;
             let fase = ((giorniTrasc % ciclo) + ciclo) % ciclo;
-            if (fase < 1.5 || fase > 28.5) return '🌑';
-            if (fase < 7) return '🌓';
-            if (fase < 13.5) return '🌔';
-            if (fase < 16) return '🌕';
-            if (fase < 21) return '🌖';
-            if (fase < 23.5) return '🌗';
-            return '🌘';
+            if (fase < 1.5 || fase > 28.5) return '🌑'; 
+            if (fase < 7) return '🌓'; 
+            if (fase < 13.5) return '🌔'; 
+            if (fase < 16) return '🌕'; 
+            if (fase < 21) return '🌖'; 
+            if (fase < 23.5) return '🌗'; 
+            return '🌘'; 
         }
 
         function getMeteoIcon(p, v, tmin) {
-            // Sotto 0.2mm consideriamo il valore rumore del sensore (rugiada,
-            // condensa nel pluviometro), non vera pioggia: altrimenti il sole
-            // non compare quasi mai.
-            const SOGLIA_PIOGGIA_REALE = 0.2;
             if (p > 10) return '🌧️';
-            if (p >= SOGLIA_PIOGGIA_REALE) return '🌦️';
+            if (p > 0) return '🌦️';
             if (v > 25) return '💨';
-            if (tmin < 5 && p < SOGLIA_PIOGGIA_REALE) return '❄️';
+            if (tmin < 5 && p === 0) return '❄️';
             return '☀️';
         }
 
+// SALVA RITROVAMENTO        
         function salvaRitrovamento(zona) {
             let diario = JSON.parse(localStorage.getItem('diario_funghi')) || {};
             let oggi = new Date().toISOString().split('T')[0];
+            
+            // 1. Chiedi lo stadio di crescita con un prompt nativo
+            let stadio = prompt(`🍄 Ritrovamento in ${zona}!\n\nInserisci il numero dello stadio:\n1 = 🌱 Primordio (piccolo, appena nato)\n2 = 🍄 Fresco (sano e in spinta)\n3 = 🍂 Maturo (spugna verde, a fine ciclo)`);
+            
+            if (stadio === null || stadio.trim() === "") return; // L'utente ha annullato
+            
+            // 2. Associa l'icona e il testo in base alla scelta
+            let icona = "🍄";
+            let desc = "Fresco";
+            
+            if (stadio === "1") { icona = "🌱"; desc = "Primordio"; }
+            else if (stadio === "2") { icona = "🍄"; desc = "Fresco"; }
+            else if (stadio === "3") { icona = "🍂"; desc = "Maturo"; }
+            else { alert("Scelta non valida. Inserisci 1, 2 o 3."); return; }
+            
+            let recordTesto = `${zona} (${desc})`;
+
             if (!diario[oggi]) diario[oggi] = [];
-            if (!diario[oggi].includes(zona)) {
-                diario[oggi].push(zona);
+            
+            // 3. Controlla se hai già inserito un record per questa zona oggi
+            let indiceEsistente = diario[oggi].findIndex(r => r.startsWith(zona));
+            
+            if (indiceEsistente === -1) {
+                // Nuovo inserimento
+                diario[oggi].push(recordTesto);
                 localStorage.setItem('diario_funghi', JSON.stringify(diario));
-                alert(`🍄 Ottimo! Ritrovamento in ${zona} salvato.`);
-                renderCalendars();
+                alert(`${icona} Ottimo! Salvato nel diario: ${recordTesto}`);
+                renderCalendars(); 
             } else {
-                alert(`Hai già segnato un ritrovamento per ${zona} oggi!`);
-            }
-        }
-
-        function esportaDiario() {
-            const diario = localStorage.getItem('diario_funghi') || '{}';
-            const blob = new Blob([diario], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'diario_funghi_backup.json';
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-
-        function importaDiario(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = e => {
-                try {
-                    const importato = JSON.parse(e.target.result);
-                    let attuale = JSON.parse(localStorage.getItem('diario_funghi')) || {};
-                    Object.keys(importato).forEach(data => {
-                        const uniti = new Set([...(attuale[data] || []), ...importato[data]]);
-                        attuale[data] = Array.from(uniti);
-                    });
-                    localStorage.setItem('diario_funghi', JSON.stringify(attuale));
-                    alert('Diario importato con successo!');
+                // Aggiornamento di un ritrovamento esistente nella stessa zona (es. trovi prima un maturo, poi un fresco)
+                if(confirm(`Hai già segnato un ritrovamento in ${zona} oggi. Vuoi sovrascriverlo con "${desc}"?`)) {
+                    diario[oggi][indiceEsistente] = recordTesto;
+                    localStorage.setItem('diario_funghi', JSON.stringify(diario));
+                    alert(`${icona} Ritrovamento aggiornato con successo!`);
                     renderCalendars();
-                } catch (err) {
-                    alert('File non valido: ' + err.message);
                 }
-            };
-            reader.readAsText(file);
-        }
-
-        // ---------------------------------------------------------------
-        // Formula di proiezione: prima era duplicata (con piccole differenze)
-        // in tre punti diversi del file. Ora c'è una sola versione, usata
-        // ovunque, per evitare che dashboard/heatmap/meteo mostrino numeri
-        // diversi per lo stesso giorno.
-        // ---------------------------------------------------------------
-        function calcolaProiezioneZona(zona, distanzaGiorni, opzioni = {}) {
-            const {
-                isSenescenzaAttiva = false,
-                tminPrevisto = null,
-                ventoPrevisto = null,
-                pioggiaPrevista = null
-            } = opzioni;
-
-            let finalProj = 0;
-            if (zona.onde && zona.onde.length > 0) {
-                zona.onde.forEach(onda => {
-                    const ritardoAggiuntivo = (isSenescenzaAttiva && zona.zona !== "Camnasco") ? 4 : 0;
-                    const dToP = distanzaGiorni - (onda.giorni_mancanti_da_ieri + ritardoAggiuntivo);
-
-                    let picco = onda.indice_picco || 0;
-                    if (isSenescenzaAttiva && zona.zona !== "Camnasco") picco *= 0.6;
-
-                    if (picco > 0) {
-                        finalProj += picco * Math.exp(- (dToP * dToP) / (2 * 4.84));
-                    }
-                });
             }
-
-            if (tminPrevisto !== null && tminPrevisto < 6) finalProj *= 0.3;
-            if (ventoPrevisto !== null && pioggiaPrevista !== null
-                && ventoPrevisto > 25 && pioggiaPrevista < 1.0 && zona.zona !== "Faggi Ovest") {
-                finalProj *= 0.5;
-            }
-
-            return Math.max(0, Math.min(100, finalProj));
         }
 
-        function arrotondaEColora(valore) {
-            let pRounded = Math.round(valore / 10) * 10;
-            if (pRounded > 100) pRounded = 100;
-            if (pRounded < 0) pRounded = 0;
-            return { pRounded, colore: getHeatmapColor(pRounded) };
-        }
+//fine salva ritrovamento
 
+        
         async function initApp() {
             try {
                 const response = await fetch(DATA_URL + '?t=' + new Date().getTime());
                 globalData = await response.json();
-                aggiornaTutto();
-
-                const st = globalData.storico_completo.slice(-10);
+                aggiornaTutto(); 
+                
+        // Tagliamo gli ultimi 15 giorni (invece di 10)
+                const st = globalData.storico_completo.slice(-15);
                 new Chart(document.getElementById('meteoChart').getContext('2d'), {
                     type: 'bar',
                     data: {
                         labels: st.map(d => formatDDMM(d.data)),
                         datasets: [
                             { label: 'Pioggia', data: st.map(d => d.pioggia_mm), backgroundColor: '#2196F3', yAxisID: 'y' },
-                            { label: 'T.Max', data: st.map(d => d.t_max), borderColor: '#F44336', type: 'line', yAxisID: 'y1' }
+                            { label: 'T.Max', data: st.map(d => d.t_max), borderColor: '#F44336', type: 'line', yAxisID: 'y1', borderWidth: 2 },
+                            // Aggiunto il dataset per la T.Min (colore azzurro per indicare il fresco)
+                            { label: 'T.Min', data: st.map(d => d.t_min), borderColor: '#00BCD4', type: 'line', yAxisID: 'y1', borderWidth: 2 }
                         ]
                     },
+                    
                     options: { responsive: true, maintainAspectRatio: false, scales: { y: { position: 'left' }, y1: { position: 'right' } } }
                 });
 
@@ -327,91 +288,45 @@
             document.getElementById('btn-' + tab).classList.add('active');
         }
 
-        function getHeatmapColor(p) {
-            const colors = {
-                0:   {bg: '#ffffff', txt: '#cccccc', border: '#eeeeee'},
-                10:  {bg: '#fffde7', txt: '#777777', border: '#fff59d'},
-                20:  {bg: '#fff59d', txt: '#333333', border: '#ffee58'},
-                30:  {bg: '#ffee58', txt: '#333333', border: '#fdd835'},
-                40:  {bg: '#ffca28', txt: '#333333', border: '#ffb300'},
-                50:  {bg: '#ffa726', txt: '#ffffff', border: '#fb8c00'},
-                60:  {bg: '#ff9800', txt: '#ffffff', border: '#f57c00'},
-                70:  {bg: '#f4511e', txt: '#ffffff', border: '#e64a19'},
-                80:  {bg: '#e53935', txt: '#ffffff', border: '#d32f2f'},
-                90:  {bg: '#c62828', txt: '#ffffff', border: '#b71c1c'},
-                100: {bg: '#b71c1c', txt: '#ffffff', border: '#7f0000'}
-            };
-            return colors[p] || colors[0];
+
+//FUNZIONE COLORI CASELLE
+        
+function getFaseColor(p, isDiscesa) {
+            if (p === 0) return {bg: '#ffffff', txt: '#cccccc', border: '#eeeeee'}; // Bianco (Fermo)
+            
+            if (isDiscesa) {
+                // FASE 3: DISCESA (Verde scuro che sfuma in marrone)
+                if (p >= 60) return {bg: '#5D4037', txt: '#ffffff', border: '#3E2723'}; // Marrone Scuro (Senescenza)
+                if (p >= 35) return {bg: '#689F38', txt: '#ffffff', border: '#33691E'}; // Verde Scuro/Oliva (Maturità)
+                return {bg: '#A1887F', txt: '#ffffff', border: '#795548'}; // Marrone sbiadito (Fine ciclo)
+            } else {
+                // FASE 1: INCUBAZIONE (Toni del Grigio - Lavoro sotterraneo)
+                if (p < 30) {
+                    if (p <= 10) return {bg: '#F5F5F5', txt: '#9E9E9E', border: '#E0E0E0'}; // Grigio chiarissimo
+                    return {bg: '#EEEEEE', txt: '#757575', border: '#BDBDBD'}; // Grigio medio (Micelio in espansione)
+                } 
+                // FASE 2: SVILUPPO E PICCO (Toni del Verde - Crescita e vigore)
+                else if (p < 60) {
+                    if (p < 45) return {bg: '#A5D6A7', txt: '#1B5E20', border: '#81C784'}; // Verde chiaro (La spuntata)
+                    return {bg: '#4CAF50', txt: '#ffffff', border: '#388E3C'}; // Verde pieno (Sviluppo forte)
+                } else {
+                    if (p < 80) return {bg: '#00E676', txt: '#1B5E20', border: '#00C853'}; // Verde brillante intenso (Picco)
+                    return {bg: '#00C853', txt: '#ffffff', border: '#009624'}; // Verde smeraldo (Esplosione massima)
+                }
+            }
         }
 
-        const ESPOSIZIONE_LABEL = {
-            "SE": "esposta Sud-Est, soleggiata",
-            "NE": "esposta Nord-Est, più fresca",
-            "OVEST_OMBRA": "esposta Ovest, in ombra",
-            "NORD": "esposta Nord, fresca e umida"
-        };
 
-        // ---------------------------------------------------------------
-        // Genera il consiglio del Fungiatt indicando le zone migliori DEL
-        // GIORNO, ciascuna con la propria quota ed esposizione, invece di un
-        // unico consiglio generico per tutta la montagna. Usa lo stesso
-        // indice mostrato nelle card sotto, quindi resta sempre coerente.
-        // ---------------------------------------------------------------
-        function generaCappello(diag) {
-            if (diag.senescenza_confermata_stagione) {
-                return "🍂 Annata con senescenza fogliare confermata: gli alberi cedono meno zuccheri al simbionte, sviluppo rallentato per tutta la stagione.";
-            }
-            if (diag.siccita_prolungata) {
-                return "🍂 Anticiclone prolungato in corso: il bosco è in debito idrico e lo sviluppo è rallentato.";
-            }
-            if (diag.t_min_attuale < 6) {
-                return "🥶 Fa frècc di notte! Meglio le quote basse ben esposte.";
-            }
-            if (diag.vento_max_attuale > 25 && diag.rh_media_attuale < 55) {
-                return "💨 Vento secco sui versanti aperti: meglio i punti riparati.";
-            }
-            return "🧭 Ecco cosa consiglia oggi il fungiatt:";
-        }
-
-        function generaConsiglioFungiatt(data, isSenescenzaAttiva) {
-            const diag = data.diagnosi_meteo;
-
-            if (!diag.evento_rilevato) {
-                return "Il bosco è secco e in attesa. 🍂 L'unica speranza è cercare le zone con sorgenti sotterranee (Camnasco) o aspettare la pioggia.";
-            }
-
-            const zoneOggi = data.zone
-                .map(z => ({ zona: z, indice: calcolaProiezioneZona(z, 1, { isSenescenzaAttiva }) }))
-                .sort((a, b) => b.indice - a.indice);
-
-            const SOGLIA_CONSIGLIO = 25;
-            const migliori = zoneOggi.filter(zo => zo.indice >= SOGLIA_CONSIGLIO).slice(0, 3);
-
-            const cappello = generaCappello(diag);
-
-            if (migliori.length === 0) {
-                const top = zoneOggi[0];
-                const esp = ESPOSIZIONE_LABEL[top.zona.esposizione] || '';
-                return `${cappello}<br><br>Oggi nessuna zona sembra ancora pronta. La più vicina è <b>${top.zona.zona}</b> (~${top.zona.quota_m}m, ${esp}): indice ${Math.round(top.indice)}%, ${top.zona.stato.toLowerCase()}.`;
-            }
-
-            const righe = migliori.map(zo => {
-                const z = zo.zona;
-                const esp = ESPOSIZIONE_LABEL[z.esposizione] || '';
-                return `🎯 <b>${z.zona}</b> (~${z.quota_m}m, ${esp}): indice ${Math.round(zo.indice)}% — ${z.stato}.`;
-            }).join('<br>');
-
-            return `${cappello}<br><br>Le zone migliori per oggi:<br>${righe}`;
-        }
-
+//CONSIGLIO DEL FUNGIATT
+        
         function renderDashboard() {
             const data = globalData;
             let ultimoDato = data.storico_completo[data.storico_completo.length - 1].data;
             document.getElementById('last-update').innerText = "Dati certi ARPA aggiornati al: " + formatDDMM(ultimoDato);
-
+            
             const diag = data.diagnosi_meteo;
             let ggDaEvento = diag.giorni_da_evento !== undefined ? (diag.giorni_da_evento + 1) : null;
-
+            
             document.getElementById('siccita-text').innerHTML = `
                 <strong>Stato Generale:</strong> ${diag.evento_rilevato ? 'Ciclo idrico in corso' : 'In attesa'}<br>
                 <strong>Ultimo evento piovoso:</strong> ${ggDaEvento !== null ? ggDaEvento + ' gg fa' : 'N/D'}<br>
@@ -420,44 +335,186 @@
 
             if (diag.rischio_senescenza) {
                 document.getElementById('card-senescenza').classList.remove('hidden');
-
-                let motivoParts = [];
-                if (diag.notti_tropicali_15gg >= 2) {
-                    motivoParts.push(`${diag.notti_tropicali_15gg} notti tropicali negli ultimi 15 giorni`);
-                }
-                if (diag.siccita_prolungata) {
-                    motivoParts.push(`${diag.giorni_caldo_secco_35gg} giorni caldo-secco negli ultimi 35`);
-                }
-                const motivoRilevamento = motivoParts.length ? `Rilevato: ${motivoParts.join(' e ')}. ` : '';
-
-                let motivoHtml;
-                if (diag.senescenza_confermata_stagione) {
-                    motivoHtml = `${motivoRilevamento}<br><b>Senescenza fogliare confermata per questa stagione</b> (rilevata il ${formatDDMM(diag.senescenza_data_rilevamento)}). ` +
-                        `Il Boletus edulis è simbionte: dipende dagli zuccheri ceduti dalla pianta ospite tramite le radici. Un albero che ha perso anticipatamente parte delle foglie ne produce meno per tutto il resto della stagione, anche dopo piogge abbondanti — le foglie non ricrescono ad agosto. Per questo la penalità resta attiva anche se il terreno si è riasciugato.`;
-                } else {
-                    motivoHtml = motivoRilevamento + "Hai notato una senescenza parziale (caduta foglie) nel bosco? Il modello ha già attivato la penalità in base ai dati; togli la spunta se non la vedi confermata sul campo.";
-                }
-                document.getElementById('senescenza-motivo').innerHTML = motivoHtml;
-
-                if (!senescenzaAutoImpostata) {
-                    document.getElementById('toggle-senescenza').checked = true;
-                    senescenzaAutoImpostata = true;
-                }
             } else {
                 document.getElementById('card-senescenza').classList.add('hidden');
             }
-
+            
             let isSenescenzaAttiva = document.getElementById('toggle-senescenza') ? document.getElementById('toggle-senescenza').checked : false;
+        //da qui
+            let consiglio = "";
+            let tmin = diag.t_min_attuale;
+            let vento = diag.vento_max_attuale;
+            let rh = diag.rh_media_attuale;
 
-            document.getElementById('consiglio-text').innerHTML = generaConsiglioFungiatt(data, isSenescenzaAttiva);
+            let ritardoStress = isSenescenzaAttiva ? 4 : 0;
+            let introSenescenza = isSenescenzaAttiva ? "🍂 <i>Senescenza attiva: l'onda altitudinale ha subito un ritardo vitale.</i><br>" : "";
+
+        // 1. RICERCA ONDE MULTIPLE: Controlliamo le proiezioni REALI di oggi per tutte le zone
+        let zoneAttive = data.zone.filter(z => Math.round(z.indice_buttata) >= 30);
+        let alertOndeMultiple = "";
+        
+        // Logica per determinare la direzione dell'onda in base alla stagione (Temperatura Massima)
+        let isOndaDiscendente = diag.t_max_attuale < 21.0; 
+        
+        if (zoneAttive.length > 0) {
+            let dettagliZone = zoneAttive.map(z => {
+                let quotaTesto = "";
+                if (z.zona !== "Camnasco") {
+                    let minQ, maxQ;
+                    
+                    if (z.zona === "Betulle SE") { minQ = 1000; maxQ = 1350; }
+                    else if (z.zona === "Betulle NE") { minQ = 1000; maxQ = 1300; }
+                    else if (z.zona === "Faggi Ovest") { minQ = 1200; maxQ = 1600; }
+                    else if (z.zona === "Abeti Nord") { minQ = 1300; maxQ = 1600; }
+                    
+                    // Funzione per calcolare la quota dinamica di una singola onda
+                    const calcolaQuotaOnda = (gm) => {
+                        let progress = (6 - gm) / 10;
+                        progress = Math.max(0, Math.min(1, progress));
+                        let q = isOndaDiscendente 
+                            ? maxQ - (progress * (maxQ - minQ)) 
+                            : minQ + (progress * (maxQ - minQ));
+                        return Math.max(minQ, Math.min(maxQ, q));
+                    };
+                    
+                    // 1. Quota del "Porcino Perfetto" (basata sull'onda principale/attuale)
+                    let gm_principale = z.giorni_mancanti_al_picco;
+                    let quotaPerfetta = Math.round(calcolaQuotaOnda(gm_principale) / 50) * 50;
+                    
+                    quotaTesto = `<span style="color:#555; font-size:0.85rem;"><br>↳ Cerca il Porcino perfetto (10cm) attorno a <b>${quotaPerfetta} m</b>.`;
+                    
+                    // 2. Quota "Riempire il Cesto" (Baricentro delle onde multiple)
+                    if (z.onde && z.onde.length > 0) {
+                        // Filtriamo le onde attive (es. tra -4 e +6 giorni dal picco)
+                        let ondeAttive = z.onde.filter(o => o.giorni_mancanti_da_ieri >= -4 && o.giorni_mancanti_da_ieri <= 6);
+                        
+                        if (ondeAttive.length > 1) {
+                            let sumQuotas = 0;
+                            let sumPesos = 0;
+                            
+                            // Media ponderata basata sull'indice di picco di ogni onda
+                            ondeAttive.forEach(o => {
+                                let qOnda = calcolaQuotaOnda(o.giorni_mancanti_da_ieri);
+                                sumQuotas += qOnda * o.indice_picco;
+                                sumPesos += o.indice_picco;
+                            });
+                            
+                            let quotaCesto = sumQuotas / sumPesos;
+                            quotaCesto = Math.round(quotaCesto / 50) * 50;
+                            
+                            if (quotaCesto !== quotaPerfetta) {
+                                quotaTesto += `<br>↳ Cerca, per riempire il cesto (mix 3-12cm), attorno a <b>${quotaCesto} m</b>.`;
+                            } else {
+                                quotaTesto += `<br>↳ 🧺 Massima sovrapposizione! Le onde convergono a questa quota.`;
+                            }
+                        } else if (ondeAttive.length === 1) {
+                            // Se c'è una sola onda, i primordi si trovano spostati di circa 50m nella direzione dell'onda
+                            let offset = isOndaDiscendente ? -50 : 50;
+                            let quotaCesto = Math.max(minQ, Math.min(maxQ, quotaPerfetta + offset));
+                            if (quotaCesto !== quotaPerfetta) {
+                                quotaTesto += `<br>↳ Cerca, per riempire il cesto (mix 3-12cm), spostandoti verso <b>${quotaCesto} m</b>.`;
+                            }
+                        }
+                    }
+                    quotaTesto += `</span>`;
+                } else {
+                    quotaTesto = `<span style="color:#555; font-size:0.85rem;"><br>↳ Quota stabile (Sorgenti a 750 m)</span>`;
+                }
+                return `<li style="margin-bottom: 6px;"><b>${z.zona}</b> (${Math.round(z.indice_buttata)}%): ${quotaTesto}</li>`;
+            }).join("");
+            
+            alertOndeMultiple = `<div style="margin-top: 15px; padding: 10px; background: #e8f5e9; border-radius: 8px; border-left: 4px solid #4caf50;">
+                🍄 <b>Focus Adulti (5-15cm):</b><br>
+                <span style="font-size: 0.85rem;">Segui il fronte dell'onda all'interno delle zone già attive:</span>
+                <ul style="margin-top: 8px; padding-left: 20px;">${dettagliZone}</ul>
+            </div>`;
+        }
+
+        // 2. LOGICA DEL CONSIGLIO E DEL MIRINO
+        if (ggDaEvento === null) {
+            consiglio = "Il bosco è secco e in attesa. 🍂 L'unica speranza è cercare le zone con sorgenti sotterranee (Camnasco) o aspettare la pioggia." + alertOndeMultiple;
+        } else if (tmin < 6 && !isOndaDiscendente) {
+            consiglio = "Fa frècc di notte! 🥶 L'abbassamento termico blocca le betulle. Stai sotto i 1000m o ripiega sugli Abeti Nord (se sono attivi) che resistono al freddo." + alertOndeMultiple;
+        } else if (vento > 25 && rh < 55) {
+            consiglio = "Attento al vento secco! 💨 Il favonio ha asciugato i versanti aperti. Cerca rifugio nell'anfiteatro dei Faggi a Ovest (Sant'Amate), lì c'è il microclima umido perfetto." + alertOndeMultiple;
+        } else {
+            let giornoInizioMontagna = 8 + ritardoStress;
+            let giornoFineMontagna = 17 + ritardoStress; 
+            
+            if (ggDaEvento < (6 + ritardoStress) && ggDaEvento >= 0) {
+                 consiglio = introSenescenza + (zoneAttive.length > 0 ? "🌱 L'ultima pioggia è in incubazione, <b>ma le vecchie onde sono attive!</b>" : "🌱 Le micorrize sono in piena incubazione per l'ultimo evento. Manca qualche giorno al fronte.") + alertOndeMultiple;
+            } else if (ggDaEvento >= (6 + ritardoStress) && ggDaEvento < giornoInizioMontagna) {
+                consiglio = introSenescenza + "L'onda della pioggia è partita! Le prime spie sono a <b>Camnasco (750m)</b>, la sorgente anticipa tutto." + alertOndeMultiple;
+            } else if (ggDaEvento > giornoFineMontagna) {
+                consiglio = introSenescenza + "Siamo a fine ciclo per l'ultimo evento. 🏔️" + alertOndeMultiple;
+            } else {
+                // Calcolo dinamico della quota
+                let giorniDiSviluppo = ggDaEvento - giornoInizioMontagna;
+                let quotaFronte = isOndaDiscendente 
+                    ? 1550 - (giorniDiSviluppo * 45)  // Autunno: scende dall'alto
+                    : 1000 + (giorniDiSviluppo * 45); // Estate: sale dal basso
+                
+                // Manteniamo nei limiti fisici del bosco
+                quotaFronte = Math.max(1000, Math.min(1600, quotaFronte));
+                
+                // Dove trovare i funghi da 5-15cm (la coda dell'onda di 3 giorni fa)
+                let scartoAdulti = 120; // Circa 120 metri di differenza
+                let quotaAdulti = isOndaDiscendente ? quotaFronte + scartoAdulti : quotaFronte - scartoAdulti;
+                quotaAdulti = Math.max(1000, Math.min(1600, quotaAdulti));
+
+                let minTarget = Math.min(quotaFronte, quotaAdulti);
+                let maxTarget = Math.max(quotaFronte, quotaAdulti);
+                
+                // Arrotondiamo per estetica a scaglioni di 50m
+                minTarget = Math.round(minTarget / 50) * 50;
+                maxTarget = Math.round(maxTarget / 50) * 50;
+
+                // Match zone con tolleranza (fuzzy logic)
+                let zoneConsigliate = [];
+                if (maxTarget >= 950 && minTarget <= 1400) zoneConsigliate.push("Betulle");
+                if (maxTarget >= 1150 && minTarget <= 1650) zoneConsigliate.push("Faggi Ovest");
+                if (maxTarget >= 1250 && minTarget <= 1650) zoneConsigliate.push("Abeti Nord");
+                
+                let dinText = isOndaDiscendente ? "📉 <b>Onda Autunnale in discesa:</b>" : "📈 <b>Onda Estiva in salita:</b>";
+                
+                consiglio = introSenescenza + `🎯 ${dinText} Il fronte primordi oggi taglia a circa ${Math.round(quotaFronte)}m.<br>`;
+                consiglio += `🍄 <b>Obiettivo 5-15cm:</b> Il cuore dell'onda è nella fascia <b>tra ${minTarget}m e ${maxTarget}m</b>.<br>`;
+                consiglio += `🌲 <b>Habitat in target:</b> ${zoneConsigliate.length > 0 ? zoneConsigliate.join(", ") : "Camnasco"}.<br>`;
+                
+                consiglio += alertOndeMultiple;
+            }
+        }
+        //fino qui 
+            document.getElementById('consiglio-text').innerHTML = consiglio;
 
             const zc = document.getElementById('zone-container');
             zc.innerHTML = '';
-
+            
             data.zone.forEach(z => {
-                const ind = calcolaProiezioneZona(z, 1, { isSenescenzaAttiva });
-                const { pRounded, colore: c } = arrotondaEColora(ind);
+                let finalProj = 0;
+                let distDalDatoCerto = 1; 
+                
+                if (z.onde && z.onde.length > 0) {
+                    z.onde.forEach(onda => {
+                        let ritardoAggiuntivo = (isSenescenzaAttiva && z.zona !== "Camnasco") ? 4 : 0;
+                        let dToP = (distDalDatoCerto - (onda.giorni_mancanti_da_ieri + ritardoAggiuntivo));
+                        
+                        let picco = onda.indice_picco || 0;
+                        if (isSenescenzaAttiva && z.zona !== "Camnasco") picco *= 0.6; 
 
+                        if (picco > 0) {
+                            finalProj += picco * Math.exp(- (dToP*dToP)/(2 * 4.84));
+                        }
+                    });
+                }
+                
+                if (finalProj > 100) finalProj = 100;
+                let ind = finalProj || 0;
+                
+                let pRounded = Math.round(ind / 5) * 5;
+                let isDiscesaDash = (z.giorni_mancanti_al_picco !== null && z.giorni_mancanti_al_picco < 0);
+                let c = getFaseColor(pRounded, isDiscesaDash);
+                
                 zc.innerHTML += `
                     <div class="zona-item">
                         <div class="zona-info">
@@ -481,17 +538,22 @@
         }
 
         function renderCalendars() {
+        // Azzera la memoria per il calcolo della fase di "discesa"
+            window.memoriaOnde = {};
+            
             const data = globalData;
             let diario = JSON.parse(localStorage.getItem('diario_funghi')) || {};
             let isSenescenzaAttiva = document.getElementById('toggle-senescenza') ? document.getElementById('toggle-senescenza').checked : false;
-
+            
             // Mostriamo fino a 60 giorni nello storico passato per vedere anche luglio
             const past = data.storico_completo.slice(-60).reverse();
             let pastHtml = '';
+            // Storico Dati Certi
             past.forEach(d => {
                 let icon = getMeteoIcon(d.pioggia_mm, d.vento_max, d.t_min);
+                // Controllo se è domenica (0 = Domenica in JavaScript)
                 let isDomenica = new Date(d.data).getDay() === 0 ? " domenica" : "";
-
+                
                 pastHtml += `
                     <div class="cal-row">
                         <div class="cal-date${isDomenica}">${formatDDMM(d.data)}</div>
@@ -516,23 +578,57 @@
                         <div class="z-label">PIN</div>
                     </div>
                 </div>`;
-
+            
             const oggi = new Date();
 
+            //BLOCCO CHE CALCOLA DATE FUTURE
             for(let offset = 0; offset <= 14; offset++) {
                 let futureDate = new Date();
                 futureDate.setDate(oggi.getDate() + offset);
-
-                let distDalDatoCerto = offset + 1;
+                
+                let distDalDatoCerto = offset + 1; 
                 let dots = '';
 
+                // (Prima del ciclo 'data.zone.forEach', inizializziamo un oggetto per ricordare il giorno prima)
+                if (!window.memoriaOnde) window.memoriaOnde = {};
+                
+                
                 data.zone.forEach((z) => {
-                    const finalProj = calcolaProiezioneZona(z, distDalDatoCerto, { isSenescenzaAttiva });
-                    const { pRounded, colore: c } = arrotondaEColora(finalProj);
+                    let finalProj = 0;
+                    if (z.onde && z.onde.length > 0) {
+                        z.onde.forEach(onda => {
+                            let ritardoAggiuntivo = (isSenescenzaAttiva && z.zona !== "Camnasco") ? 4 : 0;
+                            let dToP = (distDalDatoCerto - (onda.giorni_mancanti_da_ieri + ritardoAggiuntivo));
+                            
+                            let picco = onda.indice_picco || 0;
+                            if (isSenescenzaAttiva && z.zona !== "Camnasco") picco *= 0.6; 
+
+                            if (picco > 0) {
+                                finalProj += picco * Math.exp(- (dToP*dToP)/(2 * 4.84));
+                            }
+                        });
+                    }
+                    
+                    // ARROTONDAMENTO AL 5%
+                    let pRounded = Math.round(finalProj / 5) * 5;
+                    if(pRounded > 100) pRounded = 100;
+                    if(pRounded < 0) pRounded = 0;
+
+                    // CALCOLO DISCESA (Se l'indice di oggi è minore di quello di ieri)
+                    let isDiscesa = false;
+                    if (window.memoriaOnde[z.zona] !== undefined && pRounded < window.memoriaOnde[z.zona] && pRounded > 0) {
+                        isDiscesa = true;
+                    }
+                    window.memoriaOnde[z.zona] = pRounded; // Salviamo per il ciclo di domani
+
+                    let c = getFaseColor(pRounded, isDiscesa);
                     let label = pRounded === 0 ? '-' : pRounded + '%';
                     dots += `<div class="future-dot" style="background-color: ${c.bg}; color: ${c.txt}; border-color: ${c.border};">${label}</div>`;
-                });
+                });                
+                
 
+
+            // Controllo se la data futura è domenica
                 let isDomenica = futureDate.getDay() === 0 ? " domenica" : "";
 
                 futureHtml += `
@@ -541,48 +637,14 @@
                         <div class="cal-luna">${getFaseLunare(futureDate.toISOString().split('T')[0])}</div>
                         <div class="future-zones">${dots}</div>
                     </div>`;
+
             }
             document.getElementById('future-calendar').innerHTML = futureHtml;
-
-            renderTaratura(diario);
         }
 
-        // ---------------------------------------------------------------
-        // Confronta i ritrovamenti salvati localmente con l'indice che il
-        // modello aveva calcolato in quel giorno per quella zona, usando lo
-        // storico_indici.json prodotto ora da main.py. Mostra al massimo gli
-        // ultimi 30 giorni con ritrovamenti.
-        // ---------------------------------------------------------------
-        function renderTaratura(diario) {
-            const cont = document.getElementById('taratura-container');
-            if (!cont) return;
-
-            const giorniConRitrovamento = Object.keys(diario).sort().reverse().slice(0, 30);
-            if (giorniConRitrovamento.length === 0) {
-                cont.innerHTML = '<p style="font-size:0.85rem;color:#666;">Nessun ritrovamento ancora segnato. Usa "🍄 Trovati!" per iniziare a raccogliere dati di taratura.</p>';
-                return;
-            }
-
-            const indiciMap = {};
-            (globalData.storico_indici || []).forEach(r => { indiciMap[r.data] = r.zone; });
-
-            let html = '';
-            giorniConRitrovamento.forEach(data => {
-                (diario[data] || []).forEach(zona => {
-                    const indiciDelGiorno = indiciMap[data];
-                    const indice = indiciDelGiorno ? indiciDelGiorno[zona] : undefined;
-                    const testo = indice !== undefined ? `previsto ${Math.round(indice)}%` : 'fuori storico';
-                    const colore = indice === undefined ? '#999' : (indice >= 50 ? '#2E7D32' : '#e65100');
-                    html += `
-                        <div class="taratura-riga">
-                            <div>${formatDDMM(data)} — ${zona}</div>
-                            <div style="color:${colore};font-weight:bold;">${testo}</div>
-                        </div>`;
-                });
-            });
-            cont.innerHTML = html;
-        }
-
+        
+//FUNZIONE LOAD OPEN METEO
+        
         async function loadOpenMeteo() {
             const url = "https://api.open-meteo.com/v1/forecast?latitude=46.0770&longitude=9.2424&elevation=1222&hourly=temperature_2m,relative_humidity_2m,precipitation,windspeed_10m&timezone=Europe/Rome";
             let isSenescenzaAttiva = document.getElementById('toggle-senescenza') ? document.getElementById('toggle-senescenza').checked : false;
@@ -592,7 +654,7 @@
                 if (!res.ok) throw new Error("Errore API Meteo: " + res.status);
                 const data = await res.json();
                 const h = data.hourly;
-
+                
                 let daysMap = {};
                 for(let i = 0; i < h.time.length; i++) {
                     let datePart = h.time[i].split('T')[0];
@@ -609,47 +671,75 @@
                         <div style="width: 45px;">Data</div>
                         <div style="flex-grow: 1; padding-left: 5px;">Meteo (1.222m)</div>
                         <div class="future-zones">
+                            <div class="z-label">CAM</div>
                             <div class="z-label">B.SE</div>
                             <div class="z-label">B.NE</div>
                             <div class="z-label">FAG</div>
                             <div class="z-label">PIN</div>
                         </div>
                     </div>`;
-
+                
                 const giorni = ["Dom", "Lun", "Mar", "Mer", "Gio", "Ven", "Sab"];
                 let count = 0;
 
                 for(let date in daysMap) {
-                    if(count >= 4) break;
-
+                    if(count >= 7) break; 
+                    
                     let temps = daysMap[date].temps;
                     let winds = daysMap[date].winds;
                     let tmax = temps.length ? Math.round(Math.max(...temps)) : '--';
                     let tmin = temps.length ? Math.round(Math.min(...temps)) : '--';
                     let pTot = daysMap[date].prec.toFixed(1);
                     let vMax = winds.length ? Math.round(Math.max(...winds)) : 0;
-
+                    
                     let dataObj = new Date(date);
                     let nomeGiorno = count === 0 ? "Oggi" : (count === 1 ? "Domani" : giorni[dataObj.getDay()]);
                     let icona = getMeteoIcon(parseFloat(pTot), vMax, tmin);
-
-                    let distDalDatoCerto = count + 1;
+                    
+                    let distDalDatoCerto = count + 1; 
                     let dots = '';
-
+                    
                     globalData.zone.forEach((z) => {
-                        if (z.zona === "Camnasco") return;
+                     
+                        let finalProj = 0;
+                        if (z.onde && z.onde.length > 0) {
+                            z.onde.onda?.forEach?.(onda => {}); // safe guard
+                            z.onde.forEach(onda => {
+                                let ritardoAggiuntivo = (isSenescenzaAttiva && z.zona !== "Camnasco") ? 4 : 0;
+                                let dToP = (distDalDatoCerto - (onda.giorni_mancanti_da_ieri + ritardoAggiuntivo));
+                                
+                                let picco = onda.indice_picco || 0;
+                                if (isSenescenzaAttiva && z.zona !== "Camnasco") picco *= 0.6; 
 
-                        const finalProj = calcolaProiezioneZona(z, distDalDatoCerto, {
-                            isSenescenzaAttiva,
-                            tminPrevisto: tmin,
-                            ventoPrevisto: vMax,
-                            pioggiaPrevista: parseFloat(pTot)
-                        });
-                        const { pRounded, colore: c } = arrotondaEColora(finalProj);
+                                if (picco > 0) {
+                                    finalProj += picco * Math.exp(- (dToP*dToP)/(2 * 4.84));
+                                }
+                            });
+                        }
+                        
+                        // 1. Danni da Vento / Favonio (Faggi immuni)
+                        if (vMax > 25 && pTot < 1.0 && z.zona !== "Faggi Ovest") {
+                            finalProj *= 0.5; 
+                        }
+                        
+                        // 2. Tolleranza al Freddo differenziata per Ecosistema
+                        if (z.zona === "Abeti Nord") {
+                            // Pinophilus: tollera molto bene il freddo. Penalizziamo solo in caso di gelate.
+                            if (tmin < 2) finalProj *= 0.4;
+                        } else {
+                            // Edulis e Aereus (Betulle, Faggi, Castagni): soffrono il freddo marcato
+                            if (tmin < 6) finalProj *= 0.3;
+                        }
+                        
+                        let pRounded = Math.round(finalProj / 5) * 5;
+                        if(pRounded > 100) pRounded = 100;
+                        if(pRounded < 0) pRounded = 0;
+                        let c = getFaseColor(pRounded, false); // Per semplicità nel meteo non calcoliamo la discesa
+                        
                         let label = pRounded === 0 ? '-' : pRounded + '%';
                         dots += `<div class="future-dot" style="background-color: ${c.bg}; color: ${c.txt}; border-color: ${c.border};">${label}</div>`;
                     });
-
+                    
                     let isDomenica = dataObj.getDay() === 0 ? " domenica" : "";
 
                     html += `
@@ -667,6 +757,7 @@
                         </div>`;
                     count++;
                 }
+                document.getElementById('forecast-container').html = html; // fix syntax error below
                 document.getElementById('forecast-container').innerHTML = html;
             } catch (e) {
                 document.getElementById('forecast-container').innerHTML = "Errore nel caricamento previsioni: " + e.message;
