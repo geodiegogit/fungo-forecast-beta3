@@ -559,7 +559,8 @@ function getFaseColor(p, isDiscesa) {
                         <div class="cal-date${isDomenica}">${formatDDMM(d.data)}</div>
                         <div class="cal-luna">${getFaseLunare(d.data)}</div>
                         <div class="cal-icon">${icon}</div>
-                        <div class="cal-data">${d.pioggia_mm}mm | ${Math.round(d.t_min)}°/${Math.round(d.t_max)}°</div>
+                        <div class="cal-data" style="font-size: 0.75rem;">${d.pioggia_mm}mm | ${Math.round(d.t_min)}°/${Math.round(d.t_max)}° | 💧${Math.round(d.rh_media)}%</div>
+
                         <div class="cal-diario">${diario[d.data] ? '🍄' : ''}</div>
                     </div>`;
             });
