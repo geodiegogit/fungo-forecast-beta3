@@ -582,17 +582,15 @@ function getFaseColor(p, isDiscesa) {
             
             const oggi = new Date();
 
-            //BLOCCO CHE CALCOLA DATE FUTURE
-            for(let offset = 0; offset <= 14; offset++) {
+            //BLOCCO CHE CALCOLA DATE FUTURE E PASSATE (-4 giorni)
+            for(let offset = -4; offset <= 14; offset++) {
                 let futureDate = new Date();
                 futureDate.setDate(oggi.getDate() + offset);
                 
                 let distDalDatoCerto = offset + 1; 
                 let dots = '';
 
-                // (Prima del ciclo 'data.zone.forEach', inizializziamo un oggetto per ricordare il giorno prima)
                 if (!window.memoriaOnde) window.memoriaOnde = {};
-                
                 
                 data.zone.forEach((z) => {
                     let finalProj = 0;
@@ -610,36 +608,44 @@ function getFaseColor(p, isDiscesa) {
                         });
                     }
                     
-                    // ARROTONDAMENTO AL 5%
                     let pRounded = Math.round(finalProj / 5) * 5;
                     if(pRounded > 100) pRounded = 100;
                     if(pRounded < 0) pRounded = 0;
 
-                    // CALCOLO DISCESA (Se l'indice di oggi è minore di quello di ieri)
                     let isDiscesa = false;
                     if (window.memoriaOnde[z.zona] !== undefined && pRounded < window.memoriaOnde[z.zona] && pRounded > 0) {
                         isDiscesa = true;
                     }
-                    window.memoriaOnde[z.zona] = pRounded; // Salviamo per il ciclo di domani
+                    window.memoriaOnde[z.zona] = pRounded;
 
                     let c = getFaseColor(pRounded, isDiscesa);
                     let label = pRounded === 0 ? '-' : pRounded + '%';
-                    dots += `<div class="future-dot" style="background-color: ${c.bg}; color: ${c.txt}; border-color: ${c.border};">${label}</div>`;
+                    
+                    // Opacità ridotta per i giorni passati
+                    let opacityStyle = offset < 0 ? "opacity: 0.6;" : "";
+                    
+                    dots += `<div class="future-dot" style="background-color: ${c.bg}; color: ${c.txt}; border-color: ${c.border}; ${opacityStyle}">${label}</div>`;
                 });                
-                
 
-
-            // Controllo se la data futura è domenica
                 let isDomenica = futureDate.getDay() === 0 ? " domenica" : "";
+                
+                // Evidenziamo la riga di OGGI
+                let rowStyle = offset === 0 ? "background-color: #fffde7; border-left: 4px solid #fbc02d; padding-left: 4px;" : "";
+                let dataLabel = offset === 0 ? "<b>Oggi</b>" : `${String(futureDate.getDate()).padStart(2, '0')}/${String(futureDate.getMonth() + 1).padStart(2, '0')}`;
 
                 futureHtml += `
-                    <div class="cal-row">
-                        <div class="cal-date${isDomenica}">${String(futureDate.getDate()).padStart(2, '0')}/${String(futureDate.getMonth() + 1).padStart(2, '0')}</div>
+                    <div class="cal-row" style="${rowStyle}">
+                        <div class="cal-date${isDomenica}" style="font-size: 0.8rem;">${dataLabel}</div>
                         <div class="cal-luna">${getFaseLunare(futureDate.toISOString().split('T')[0])}</div>
                         <div class="future-zones">${dots}</div>
                     </div>`;
-
             }
+
+            
+
+
+
+                
             document.getElementById('future-calendar').innerHTML = futureHtml;
         }
 
