@@ -140,10 +140,16 @@ class AnalizzatoreSiccitaPorcini:
         notti_tropicali = sum(1 for d in serie if d.get("t_min", 0) >= 19.0)
         rischio_senescenza = notti_tropicali >= 2
 
+        # --- NUOVO: Calcolo Inerzia Umidità (Media ultimi 4 giorni) ---
+        rh_ultimi_4 = [d.get("rh_media", 50.0) for d in serie[-4:]] if len(serie) >= 4 else [giorno_ieri["rh_media"]]
+        rh_inerzia = sum(rh_ultimi_4) / len(rh_ultimi_4)
+        # --------------------------------------------------------------
+
         diag = {
             "t_max_attuale": giorno_ieri["t_max"],
             "t_min_attuale": giorno_ieri["t_min"],
             "rh_media_attuale": giorno_ieri["rh_media"],
+            "rh_media_inerzia": round(rh_inerzia, 1), # Aggiunto al dizionario
             "vento_max_attuale": giorno_ieri["vento_max"],
             "pioggia_oggi": giorno_ieri["pioggia_mm"], 
             "eventi": eventi_trovati,
