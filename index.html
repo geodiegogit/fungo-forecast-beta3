@@ -582,10 +582,13 @@ function getFaseColor(p, isDiscesa) {
             
             const oggi = new Date();
 
-            //BLOCCO CHE CALCOLA DATE FUTURE E PASSATE (-4 giorni)
+            // BLOCCO CHE CALCOLA DATE FUTURE E RECUPERA QUELLE PASSATE
             for(let offset = -4; offset <= 14; offset++) {
                 let futureDate = new Date();
                 futureDate.setDate(oggi.getDate() + offset);
+                
+                // Formattiamo la data in YYYY-MM-DD per cercare lo snapshot
+                let padDate = `${futureDate.getFullYear()}-${String(futureDate.getMonth()+1).padStart(2,'0')}-${String(futureDate.getDate()).padStart(2,'0')}`;
                 
                 let distDalDatoCerto = offset + 1; 
                 let dots = '';
@@ -594,18 +597,26 @@ function getFaseColor(p, isDiscesa) {
                 
                 data.zone.forEach((z) => {
                     let finalProj = 0;
-                    if (z.onde && z.onde.length > 0) {
-                        z.onde.forEach(onda => {
-                            let ritardoAggiuntivo = (isSenescenzaAttiva && z.zona !== "Camnasco") ? 4 : 0;
-                            let dToP = (distDalDatoCerto - (onda.giorni_mancanti_da_ieri + ritardoAggiuntivo));
-                            
-                            let picco = onda.indice_picco || 0;
-                            if (isSenescenzaAttiva && z.zona !== "Camnasco") picco *= 0.6; 
+                    
+                    // Se è un giorno passato e Python ha salvato uno snapshot per questa data
+                    if (offset < 0 && data.proiezioni_salvate && data.proiezioni_salvate[padDate] && data.proiezioni_salvate[padDate][z.zona] !== undefined) {
+                        finalProj = data.proiezioni_salvate[padDate][z.zona];
+                    } 
+                    // Altrimenti (per oggi e il futuro) usa il calcolo matematico
+                    else {
+                        if (z.onde && z.onde.length > 0) {
+                            z.onde.forEach(onda => {
+                                let ritardoAggiuntivo = (isSenescenzaAttiva && z.zona !== "Camnasco") ? 4 : 0;
+                                let dToP = (distDalDatoCerto - (onda.giorni_mancanti_da_ieri + ritardoAggiuntivo));
+                                
+                                let picco = onda.indice_picco || 0;
+                                if (isSenescenzaAttiva && z.zona !== "Camnasco") picco *= 0.6; 
 
-                            if (picco > 0) {
-                                finalProj += picco * Math.exp(- (dToP*dToP)/(2 * 4.84));
-                            }
-                        });
+                                if (picco > 0) {
+                                    finalProj += picco * Math.exp(- (dToP*dToP)/(2 * 4.84));
+                                }
+                            });
+                        }
                     }
                     
                     let pRounded = Math.round(finalProj / 5) * 5;
@@ -621,15 +632,12 @@ function getFaseColor(p, isDiscesa) {
                     let c = getFaseColor(pRounded, isDiscesa);
                     let label = pRounded === 0 ? '-' : pRounded + '%';
                     
-                    // Opacità ridotta per i giorni passati
-                    let opacityStyle = offset < 0 ? "opacity: 0.6;" : "";
+                    let opacityStyle = offset < 0 ? "opacity: 0.7;" : "";
                     
                     dots += `<div class="future-dot" style="background-color: ${c.bg}; color: ${c.txt}; border-color: ${c.border}; ${opacityStyle}">${label}</div>`;
                 });                
 
                 let isDomenica = futureDate.getDay() === 0 ? " domenica" : "";
-                
-                // Evidenziamo la riga di OGGI
                 let rowStyle = offset === 0 ? "background-color: #fffde7; border-left: 4px solid #fbc02d; padding-left: 4px;" : "";
                 let dataLabel = offset === 0 ? "<b>Oggi</b>" : `${String(futureDate.getDate()).padStart(2, '0')}/${String(futureDate.getMonth() + 1).padStart(2, '0')}`;
 
@@ -641,11 +649,8 @@ function getFaseColor(p, isDiscesa) {
                     </div>`;
             }
 
+//FINE FUNZIONE
             
-
-
-
-                
             document.getElementById('future-calendar').innerHTML = futureHtml;
         }
 
