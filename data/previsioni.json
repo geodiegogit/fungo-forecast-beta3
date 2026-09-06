@@ -1,5 +1,5 @@
 {
-  "ultimo_aggiornamento": "2026-09-06 01:46:06",
+  "ultimo_aggiornamento": "2026-09-06 06:23:23",
   "stazione": {
     "id": "1545",
     "nome": "San Siro",
@@ -162,6 +162,15 @@
       ]
     }
   ],
+  "proiezioni_salvate": {
+    "2026-09-06": {
+      "Camnasco": 0.0,
+      "Betulle SE": 0.0,
+      "Betulle NE": 0.4,
+      "Faggi Ovest": 4.0,
+      "Abeti Nord": 3.9
+    }
+  },
   "storico_completo": [
     {
       "data": "2026-07-23",
