@@ -363,11 +363,31 @@ def main():
     diagnosi = analizzatore.analizza(storico_finale)
     previsioni = calcola_microzone(diagnosi)
 
+    # --- NUOVO: Recupero e Salvataggio Snapshot Storico ---
+    proiezioni_salvate = {}
+    try:
+        if os.path.exists("data/previsioni.json"):
+            with open("data/previsioni.json", "r", encoding="utf-8") as f:
+                old_data = json.load(f)
+                proiezioni_salvate = old_data.get("proiezioni_salvate", {})
+    except Exception:
+        pass
+
+    # Salviamo la foto esatta dell'indice di buttata di oggi
+    oggi_str = datetime.now().strftime("%Y-%m-%d")
+    proiezioni_salvate[oggi_str] = {z["zona"]: round(z["indice_buttata"], 1) for z in previsioni}
+
+    # Teniamo in memoria solo gli ultimi 15 giorni per non appesantire il file
+    keys = sorted(proiezioni_salvate.keys())[-15:]
+    proiezioni_salvate = {k: proiezioni_salvate[k] for k in keys}
+    # -------------------------------------------------------
+
     output = {
         "ultimo_aggiornamento": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "stazione": {"id": ID_STAZIONE, "nome": "San Siro", "quota_m": 1285},
         "diagnosi_meteo": diagnosi,
         "zone": previsioni,
+        "proiezioni_salvate": proiezioni_salvate, # Aggiunto al JSON
         "storico_completo": storico_finale
     }
 
@@ -380,4 +400,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
     
