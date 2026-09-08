@@ -1,5 +1,5 @@
 {
-  "ultimo_aggiornamento": "2026-09-08 01:48:08",
+  "ultimo_aggiornamento": "2026-09-08 20:55:10",
   "stazione": {
     "id": "1545",
     "nome": "San Siro",
@@ -8,7 +8,7 @@
   "diagnosi_meteo": {
     "t_max_attuale": 23.0,
     "t_min_attuale": 16.9,
-    "rh_media_attuale": 77.6,
+    "rh_media_attuale": 77.7,
     "rh_media_inerzia": 58.4,
     "vento_max_attuale": 20.2,
     "pioggia_oggi": 0.0,
@@ -83,7 +83,7 @@
       "onde": [
         {
           "giorni_mancanti_da_ieri": -10,
-          "indice_picco": 1.0
+          "indice_picco": 1.1
         },
         {
           "giorni_mancanti_da_ieri": -9,
@@ -588,7 +588,7 @@
       "t_media": 19.7,
       "t_max": 23.0,
       "t_min": 16.9,
-      "rh_media": 77.6,
+      "rh_media": 77.7,
       "vento_max": 20.2
     }
   ]
