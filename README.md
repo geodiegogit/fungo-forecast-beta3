@@ -1,2 +1,2 @@
 # fungo_forecast-beta-3
-versione con pinophilus differenziato anche in temperature. considerazione rugiada a santAmate, storico anche di previsioni di crescita.
+versione con quello di pino differenziato per le temperature ideali. considerazione rugiada su in alto, storico anche di previsioni di crescita.
