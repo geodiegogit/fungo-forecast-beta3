@@ -1,5 +1,5 @@
 {
-  "ultimo_aggiornamento": "2026-09-18 00:02:51",
+  "ultimo_aggiornamento": "2026-09-18 01:07:03",
   "stazione": {
     "id": "1545",
     "nome": "San Siro",
@@ -8,8 +8,8 @@
   "diagnosi_meteo": {
     "t_max_attuale": 18.3,
     "t_min_attuale": 11.3,
-    "rh_media_attuale": 85.7,
-    "rh_media_inerzia": 81.0,
+    "rh_media_attuale": 88.5,
+    "rh_media_inerzia": 81.7,
     "vento_max_attuale": 23.2,
     "pioggia_oggi": 0.2,
     "eventi": [
@@ -63,7 +63,7 @@
   "zone": [
     {
       "zona": "Camnasco",
-      "indice_buttata": 14.1,
+      "indice_buttata": 15.4,
       "t_min_stimata": 14.8,
       "t_max_stimata": 24.3,
       "giorni_mancanti_al_picco": -25,
@@ -71,25 +71,25 @@
       "onde": [
         {
           "giorni_mancanti_da_ieri": -25,
-          "indice_picco": 4.9
-        },
-        {
-          "giorni_mancanti_da_ieri": -22,
-          "indice_picco": 6.2
-        },
-        {
-          "giorni_mancanti_da_ieri": -17,
           "indice_picco": 5.4
         },
         {
+          "giorni_mancanti_da_ieri": -22,
+          "indice_picco": 6.8
+        },
+        {
+          "giorni_mancanti_da_ieri": -17,
+          "indice_picco": 5.9
+        },
+        {
           "giorni_mancanti_da_ieri": -3,
-          "indice_picco": 35.7
+          "indice_picco": 39.1
         }
       ]
     },
     {
       "zona": "Betulle SE",
-      "indice_buttata": 56.3,
+      "indice_buttata": 61.6,
       "t_min_stimata": 11.7,
       "t_max_stimata": 21.2,
       "giorni_mancanti_al_picco": -20,
@@ -97,19 +97,19 @@
       "onde": [
         {
           "giorni_mancanti_da_ieri": -20,
-          "indice_picco": 7.7
+          "indice_picco": 8.4
         },
         {
           "giorni_mancanti_da_ieri": -19,
-          "indice_picco": 9.8
+          "indice_picco": 10.8
         },
         {
           "giorni_mancanti_da_ieri": -14,
-          "indice_picco": 8.5
+          "indice_picco": 9.3
         },
         {
           "giorni_mancanti_da_ieri": 0,
-          "indice_picco": 56.3
+          "indice_picco": 61.6
         }
       ]
     },
@@ -278,8 +278,8 @@
       "Abeti Nord": 4.8
     },
     "2026-09-18": {
-      "Camnasco": 14.1,
-      "Betulle SE": 56.3,
+      "Camnasco": 15.4,
+      "Betulle SE": 61.6,
       "Betulle NE": 62.6,
       "Faggi Ovest": 32.2,
       "Abeti Nord": 10.7
@@ -685,10 +685,10 @@
     {
       "data": "2026-09-17",
       "pioggia_mm": 0.2,
-      "t_media": 13.8,
+      "t_media": 13.5,
       "t_max": 18.3,
       "t_min": 11.3,
-      "rh_media": 85.7,
+      "rh_media": 88.5,
       "vento_max": 23.2
     }
   ]
