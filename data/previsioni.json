@@ -1,53 +1,53 @@
 {
-  "ultimo_aggiornamento": "2026-09-18 01:07:03",
+  "ultimo_aggiornamento": "2026-09-19 01:06:34",
   "stazione": {
     "id": "1545",
     "nome": "San Siro",
     "quota_m": 1285
   },
   "diagnosi_meteo": {
-    "t_max_attuale": 18.3,
-    "t_min_attuale": 11.3,
-    "rh_media_attuale": 88.5,
-    "rh_media_inerzia": 81.7,
-    "vento_max_attuale": 23.2,
-    "pioggia_oggi": 0.2,
+    "t_max_attuale": 14.8,
+    "t_min_attuale": 11.4,
+    "rh_media_attuale": 93.2,
+    "rh_media_inerzia": 90.2,
+    "vento_max_attuale": 19.4,
+    "pioggia_oggi": 6.2,
     "eventi": [
       {
-        "indice": 12,
+        "indice": 11,
         "data": "2026-08-16",
         "pioggia": 55.8,
-        "giorni_da_evento": 32,
+        "giorni_da_evento": 33,
         "ritardo": 3,
         "soglia": 40.0,
         "smorzamento": 0.09000000000000001,
         "delta_t_shock": 13.900000000000002
       },
       {
-        "indice": 16,
+        "indice": 15,
         "data": "2026-08-20",
         "pioggia": 93.2,
-        "giorni_da_evento": 28,
+        "giorni_da_evento": 29,
         "ritardo": 0,
         "soglia": 35.0,
         "smorzamento": 0.1,
         "delta_t_shock": 15.7
       },
       {
-        "indice": 21,
+        "indice": 20,
         "data": "2026-08-25",
         "pioggia": 50.4,
-        "giorni_da_evento": 23,
+        "giorni_da_evento": 24,
         "ritardo": 0,
         "soglia": 35.0,
         "smorzamento": 0.1,
         "delta_t_shock": 9.299999999999999
       },
       {
-        "indice": 35,
+        "indice": 34,
         "data": "2026-09-08",
         "pioggia": 37.4,
-        "giorni_da_evento": 9,
+        "giorni_da_evento": 10,
         "ritardo": 0,
         "soglia": 35.0,
         "smorzamento": 1.0,
@@ -57,137 +57,137 @@
     "rischio_senescenza": true,
     "evento_rilevato": true,
     "data_evento": "2026-09-08",
-    "giorni_da_evento": 9,
+    "giorni_da_evento": 10,
     "ritardo_siccita_applicato": 0
   },
   "zone": [
     {
       "zona": "Camnasco",
-      "indice_buttata": 15.4,
-      "t_min_stimata": 14.8,
-      "t_max_stimata": 24.3,
-      "giorni_mancanti_al_picco": -25,
+      "indice_buttata": 11.6,
+      "t_min_stimata": 14.9,
+      "t_max_stimata": 20.8,
+      "giorni_mancanti_al_picco": -26,
       "stato": "In esaurimento",
       "onde": [
         {
-          "giorni_mancanti_da_ieri": -25,
-          "indice_picco": 5.4
+          "giorni_mancanti_da_ieri": -26,
+          "indice_picco": 8.3
         },
         {
-          "giorni_mancanti_da_ieri": -22,
-          "indice_picco": 6.8
+          "giorni_mancanti_da_ieri": -23,
+          "indice_picco": 10.6
         },
         {
-          "giorni_mancanti_da_ieri": -17,
-          "indice_picco": 5.9
+          "giorni_mancanti_da_ieri": -18,
+          "indice_picco": 9.2
         },
         {
-          "giorni_mancanti_da_ieri": -3,
-          "indice_picco": 39.1
+          "giorni_mancanti_da_ieri": -4,
+          "indice_picco": 60.8
         }
       ]
     },
     {
       "zona": "Betulle SE",
-      "indice_buttata": 61.6,
-      "t_min_stimata": 11.7,
-      "t_max_stimata": 21.2,
-      "giorni_mancanti_al_picco": -20,
-      "stato": "In esaurimento",
-      "onde": [
-        {
-          "giorni_mancanti_da_ieri": -20,
-          "indice_picco": 8.4
-        },
-        {
-          "giorni_mancanti_da_ieri": -19,
-          "indice_picco": 10.8
-        },
-        {
-          "giorni_mancanti_da_ieri": -14,
-          "indice_picco": 9.3
-        },
-        {
-          "giorni_mancanti_da_ieri": 0,
-          "indice_picco": 61.6
-        }
-      ]
-    },
-    {
-      "zona": "Betulle NE",
-      "indice_buttata": 62.6,
-      "t_min_stimata": 12.2,
-      "t_max_stimata": 18.2,
+      "indice_buttata": 56.4,
+      "t_min_stimata": 11.8,
+      "t_max_stimata": 17.7,
       "giorni_mancanti_al_picco": -21,
       "stato": "In esaurimento",
       "onde": [
         {
           "giorni_mancanti_da_ieri": -21,
-          "indice_picco": 9.5
+          "indice_picco": 8.6
         },
         {
           "giorni_mancanti_da_ieri": -20,
-          "indice_picco": 12.1
+          "indice_picco": 10.9
         },
         {
           "giorni_mancanti_da_ieri": -15,
-          "indice_picco": 10.5
+          "indice_picco": 9.4
         },
         {
           "giorni_mancanti_da_ieri": -1,
-          "indice_picco": 69.5
+          "indice_picco": 62.5
+        }
+      ]
+    },
+    {
+      "zona": "Betulle NE",
+      "indice_buttata": 34.2,
+      "t_min_stimata": 12.3,
+      "t_max_stimata": 14.7,
+      "giorni_mancanti_al_picco": -22,
+      "stato": "In esaurimento",
+      "onde": [
+        {
+          "giorni_mancanti_da_ieri": -22,
+          "indice_picco": 7.1
+        },
+        {
+          "giorni_mancanti_da_ieri": -21,
+          "indice_picco": 9.0
+        },
+        {
+          "giorni_mancanti_da_ieri": -16,
+          "indice_picco": 7.8
+        },
+        {
+          "giorni_mancanti_da_ieri": -2,
+          "indice_picco": 51.7
         }
       ]
     },
     {
       "zona": "Faggi Ovest",
-      "indice_buttata": 32.2,
-      "t_min_stimata": 10.0,
-      "t_max_stimata": 15.0,
-      "giorni_mancanti_al_picco": 3,
-      "stato": "Incubazione (3 gg)",
+      "indice_buttata": 36.4,
+      "t_min_stimata": 10.1,
+      "t_max_stimata": 11.5,
+      "giorni_mancanti_al_picco": 2,
+      "stato": "Incubazione (2 gg)",
       "onde": [
         {
+          "giorni_mancanti_da_ieri": -18,
+          "indice_picco": 7.5
+        },
+        {
           "giorni_mancanti_da_ieri": -17,
-          "indice_picco": 11.2
+          "indice_picco": 9.6
         },
         {
-          "giorni_mancanti_da_ieri": -16,
-          "indice_picco": 14.3
+          "giorni_mancanti_da_ieri": -12,
+          "indice_picco": 8.3
         },
         {
-          "giorni_mancanti_da_ieri": -11,
-          "indice_picco": 12.3
-        },
-        {
-          "giorni_mancanti_da_ieri": 3,
-          "indice_picco": 81.6
+          "giorni_mancanti_da_ieri": 2,
+          "indice_picco": 55.0
         }
       ]
     },
     {
       "zona": "Abeti Nord",
-      "indice_buttata": 10.7,
-      "t_min_stimata": 8.5,
-      "t_max_stimata": 14.5,
-      "giorni_mancanti_al_picco": 4,
-      "stato": "Incubazione (4 gg)",
+      "indice_buttata": 13.0,
+      "t_min_stimata": 8.6,
+      "t_max_stimata": 11.0,
+      "giorni_mancanti_al_picco": 3,
+      "stato": "Incubazione (3 gg)",
       "onde": [
         {
+          "giorni_mancanti_da_ieri": -17,
+          "indice_picco": 4.5
+        },
+        {
           "giorni_mancanti_da_ieri": -16,
-          "indice_picco": 7.7
+          "indice_picco": 5.8
         },
         {
-          "giorni_mancanti_da_ieri": -15,
-          "indice_picco": 9.8
+          "giorni_mancanti_da_ieri": -11,
+          "indice_picco": 5.0
         },
         {
-          "giorni_mancanti_da_ieri": -10,
-          "indice_picco": 8.5
-        },
-        {
-          "giorni_mancanti_da_ieri": 4,
-          "indice_picco": 56.0
+          "giorni_mancanti_da_ieri": 3,
+          "indice_picco": 33.0
         }
       ]
     }
@@ -283,18 +283,16 @@
       "Betulle NE": 62.6,
       "Faggi Ovest": 32.2,
       "Abeti Nord": 10.7
+    },
+    "2026-09-19": {
+      "Camnasco": 11.6,
+      "Betulle SE": 56.4,
+      "Betulle NE": 34.2,
+      "Faggi Ovest": 36.4,
+      "Abeti Nord": 13.0
     }
   },
   "storico_completo": [
-    {
-      "data": "2026-08-04",
-      "pioggia_mm": 0.0,
-      "t_media": 24.1,
-      "t_max": 28.0,
-      "t_min": 20.2,
-      "rh_media": 49.3,
-      "vento_max": 21.1
-    },
     {
       "data": "2026-08-05",
       "pioggia_mm": 0.0,
@@ -688,8 +686,17 @@
       "t_media": 13.5,
       "t_max": 18.3,
       "t_min": 11.3,
-      "rh_media": 88.5,
+      "rh_media": 88.6,
       "vento_max": 23.2
+    },
+    {
+      "data": "2026-09-18",
+      "pioggia_mm": 6.2,
+      "t_media": 12.3,
+      "t_max": 14.8,
+      "t_min": 11.4,
+      "rh_media": 93.2,
+      "vento_max": 19.4
     }
   ]
 }
