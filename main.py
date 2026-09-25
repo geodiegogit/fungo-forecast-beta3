@@ -186,8 +186,7 @@ def calcola_microzone(diag: Dict[str, Any], quota_stazione: int = 1285) -> List[
         t_min_b = diag["t_min_attuale"] - gradiente
         t_max_b = diag["t_max_attuale"] - gradiente
            
-        # --- NUOVO: Assegnazione Dinamica dell'Umidità Base ---
-        # Betulle esposte: subiscono il calo immediato. Faggi/Abeti in conca: usano l'inerzia.
+# --- NUOVO: Assegnazione Dinamica dell'Umidità Base ---
         if z["essenza"] == "betulla":
             rh_base = diag["rh_media_attuale"]
         else:
@@ -212,71 +211,30 @@ def calcola_microzone(diag: Dict[str, Any], quota_stazione: int = 1285) -> List[
         t_media_eff = (t_max_eff + t_min_eff) / 2
         f_T_media = math.exp(- ((t_media_eff - t_opt) ** 2) / (2 * (3.5 ** 2)))
         
-        if z["essenza"] == "pino":
-            f_T_freddo = 0.0 if t_min_eff < 0.0 else ((t_min_eff - 0.0) / 3.0 if t_min_eff < 3.0 else 1.0)
-        else:
-            f_T_freddo = 0.0 if t_min_eff < 3.0 else ((t_min_eff - 3.0) / 4.0 if t_min_eff < 7.0 else 1.0)
-        
-        # --- NUOVO: Grilletto Termico con blocco caldo per Pinophilus ---
-        f_grilletto = 1.0
-        if z["essenza"] == "betulla":
-            if 8.0 <= t_min_eff <= 13.0: f_grilletto = 1.3
-            elif t_min_eff > 17.0: f_grilletto = 0.7
-        elif z["essenza"] == "pino":
-            if 4.0 <= t_min_eff <= 10.0: f_grilletto = 1.4
-            elif t_min_eff > 12.0: f_grilletto = 0.1  # Blocco severo: fa troppo caldo per i rossi
-        elif z["essenza"] == "faggio":
-            if 10.0 <= t_min_eff <= 14.0: f_grilletto = 1.2
-            elif t_min_eff > 18.0: f_grilletto = 0.8
-        elif z["essenza"] == "castagno":
-            if 12.0 <= t_min_eff <= 16.0: f_grilletto = 1.2
-            elif t_min_eff > 19.0: f_grilletto = 0.7
-
-        
-        rh_eff = diag["rh_media_attuale"]
-        if z["esposizione"] == "SE":
-            t_max_eff, t_min_eff, rh_eff = t_max_b + 2.5, t_min_b, max(0.0, diag["rh_media_attuale"] - 10.0)
-        elif z["esposizione"] == "NE":
-            t_max_eff, t_min_eff, rh_eff = t_max_b - 1.0, t_min_b, min(100.0, diag["rh_media_attuale"] + 12.0)
-        elif z["esposizione"] == "OVEST_OMBRA":
-            t_max_eff, t_min_eff, rh_eff = t_max_b - 1.5, t_min_b - 0.5, min(100.0, diag["rh_media_attuale"] + 15.0)
-        elif z["esposizione"] == "NORD":
-            t_max_eff, t_min_eff, rh_eff = t_max_b - 2.5, t_min_b - 1.5, min(100.0, diag["rh_media_attuale"] + 20.0)
-        else:
-            t_max_eff, t_min_eff = t_max_b, t_min_b
-            
-        if z["nome"] == "Camnasco": rh_eff = max(60.0, rh_eff) 
-        if z["nome"] == "Faggi Ovest": t_min_eff += 1.0 
-
-        t_opt = 16.5 if z["essenza"] not in ["pino", "faggio"] else 14.5
-        t_media_eff = (t_max_eff + t_min_eff) / 2
-        f_T_media = math.exp(- ((t_media_eff - t_opt) ** 2) / (2 * (3.5 ** 2)))
-        
         # --- NUOVO: Tolleranza al freddo differenziata ---
         if z["essenza"] == "pino":
-            # Il pino regge fino a 0°C senza bloccarsi totalmente
             f_T_freddo = 0.0 if t_min_eff < 0.0 else ((t_min_eff - 0.0) / 3.0 if t_min_eff < 3.0 else 1.0)
         else:
             f_T_freddo = 0.0 if t_min_eff < 3.0 else ((t_min_eff - 3.0) / 4.0 if t_min_eff < 7.0 else 1.0)
         
-        # --- NUOVO: Grilletto Termico per Specie ---
+        # --- NUOVO: Grilletto Termico per Specie (Versione Definitiva) ---
         f_grilletto = 1.0
         if z["essenza"] == "betulla":
             if 8.0 <= t_min_eff <= 13.0: f_grilletto = 1.3
             elif t_min_eff > 17.0: f_grilletto = 0.7
         elif z["essenza"] == "pino":
-            # Finestra termica molto più bassa per il Pinophilus
             if 4.0 <= t_min_eff <= 10.0: f_grilletto = 1.4
             elif t_min_eff > 15.0: f_grilletto = 0.7
         elif z["essenza"] == "faggio":
-            # Il faggio ha un range intermedio
             if 10.0 <= t_min_eff <= 14.0: f_grilletto = 1.2
             elif t_min_eff > 18.0: f_grilletto = 0.8
         elif z["essenza"] == "castagno":
             if 12.0 <= t_min_eff <= 16.0: f_grilletto = 1.2
             elif t_min_eff > 19.0: f_grilletto = 0.7
 
-        f_H = 1.0 if rh_eff >= 85 else (0.0 if rh_eff < 40 else ((rh_eff - 40) / 45) ** 1.2)
+        f_H = 1.0 if rh_eff >= 85 else (0.0 if rh_eff < 40 else ((rh_eff - 40) / 45) ** 1.2) 
+
+
         
         vento = diag["vento_max_attuale"]
         is_favonio = (vento > 20 and diag["rh_media_attuale"] < 60 and diag["pioggia_oggi"] < 1.0)
