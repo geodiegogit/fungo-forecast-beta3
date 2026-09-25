@@ -21,7 +21,7 @@ def get_sensor_ids_for_station(id_stazione: str) -> Dict[str, str]:
         if "precipitazione" in tipo: mappa["pioggia"] = ids
         elif "temperatura" in tipo: mappa["temperatura"] = ids
         elif "umidit" in tipo: mappa["umidita"] = ids
-        elif "vento" in tipo or "velocit" in tipo: mappa["vento"] = ids
+        elif "velocità vento" in tipo or "velocita vento" in tipo: mappa["vento"] = ids
     return mappa
 
 def download_weather_history(mappa_sensori: Dict[str, str], days: int = 45) -> pd.DataFrame:
