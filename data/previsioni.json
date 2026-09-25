@@ -1,5 +1,5 @@
 {
-  "ultimo_aggiornamento": "2026-09-25 05:42:39",
+  "ultimo_aggiornamento": "2026-09-25 09:22:24",
   "stazione": {
     "id": "1545",
     "nome": "San Siro",
@@ -8,9 +8,9 @@
   "diagnosi_meteo": {
     "t_max_attuale": 20.1,
     "t_min_attuale": 10.3,
-    "rh_media_attuale": 50.9,
+    "rh_media_attuale": 50.8,
     "rh_media_inerzia": 54.6,
-    "vento_max_attuale": 1267.2,
+    "vento_max_attuale": 30.2,
     "pioggia_oggi": 0.0,
     "eventi": [
       {
@@ -50,7 +50,7 @@
         "giorni_da_evento": 16,
         "ritardo": 0,
         "soglia": 35.0,
-        "smorzamento": 0.1,
+        "smorzamento": 0.75,
         "delta_t_shock": 17.5
       }
     ],
@@ -71,19 +71,19 @@
       "onde": [
         {
           "giorni_mancanti_da_ieri": -32,
-          "indice_picco": 0.0
+          "indice_picco": 0.2
         },
         {
           "giorni_mancanti_da_ieri": -29,
-          "indice_picco": 0.3
+          "indice_picco": 1.7
         },
         {
           "giorni_mancanti_da_ieri": -24,
-          "indice_picco": 0.2
+          "indice_picco": 1.4
         },
         {
           "giorni_mancanti_da_ieri": -10,
-          "indice_picco": 0.2
+          "indice_picco": 7.1
         }
       ]
     },
@@ -101,15 +101,15 @@
         },
         {
           "giorni_mancanti_da_ieri": -26,
-          "indice_picco": 0.0
+          "indice_picco": 0.1
         },
         {
           "giorni_mancanti_da_ieri": -21,
-          "indice_picco": 0.0
+          "indice_picco": 0.1
         },
         {
           "giorni_mancanti_da_ieri": -7,
-          "indice_picco": 0.0
+          "indice_picco": 0.3
         }
       ]
     },
@@ -123,25 +123,25 @@
       "onde": [
         {
           "giorni_mancanti_da_ieri": -19,
-          "indice_picco": 0.1
+          "indice_picco": 0.4
         },
         {
           "giorni_mancanti_da_ieri": -27,
-          "indice_picco": 0.6
+          "indice_picco": 3.3
         },
         {
           "giorni_mancanti_da_ieri": -22,
-          "indice_picco": 0.5
+          "indice_picco": 2.8
         },
         {
           "giorni_mancanti_da_ieri": -8,
-          "indice_picco": 0.3
+          "indice_picco": 14.1
         }
       ]
     },
     {
       "zona": "Faggi Ovest",
-      "indice_buttata": 0.7,
+      "indice_buttata": 6.3,
       "t_min_stimata": 9.0,
       "t_max_stimata": 16.8,
       "giorni_mancanti_al_picco": -23,
@@ -149,25 +149,25 @@
       "onde": [
         {
           "giorni_mancanti_da_ieri": -15,
-          "indice_picco": 0.7
+          "indice_picco": 0.9
         },
         {
           "giorni_mancanti_da_ieri": -23,
-          "indice_picco": 6.5
+          "indice_picco": 7.6
         },
         {
           "giorni_mancanti_da_ieri": -18,
-          "indice_picco": 5.6
+          "indice_picco": 6.6
         },
         {
           "giorni_mancanti_da_ieri": -4,
-          "indice_picco": 3.7
+          "indice_picco": 32.7
         }
       ]
     },
     {
       "zona": "Abeti Nord",
-      "indice_buttata": 0.2,
+      "indice_buttata": 7.8,
       "t_min_stimata": 7.5,
       "t_max_stimata": 16.3,
       "giorni_mancanti_al_picco": -22,
@@ -175,19 +175,19 @@
       "onde": [
         {
           "giorni_mancanti_da_ieri": -14,
-          "indice_picco": 0.1
+          "indice_picco": 0.5
         },
         {
           "giorni_mancanti_da_ieri": -22,
-          "indice_picco": 0.7
+          "indice_picco": 4.6
         },
         {
           "giorni_mancanti_da_ieri": -17,
-          "indice_picco": 0.6
+          "indice_picco": 4.0
         },
         {
           "giorni_mancanti_da_ieri": -3,
-          "indice_picco": 0.4
+          "indice_picco": 19.9
         }
       ]
     }
@@ -295,8 +295,8 @@
       "Camnasco": 0.0,
       "Betulle SE": 0.0,
       "Betulle NE": 0.0,
-      "Faggi Ovest": 0.7,
-      "Abeti Nord": 0.2
+      "Faggi Ovest": 6.3,
+      "Abeti Nord": 7.8
     }
   },
   "storico_completo": [
@@ -307,7 +307,7 @@
       "t_max": 27.5,
       "t_min": 19.2,
       "rh_media": 47.6,
-      "vento_max": 1267.2
+      "vento_max": 28.4
     },
     {
       "data": "2026-08-12",
@@ -316,7 +316,7 @@
       "t_max": 27.1,
       "t_min": 18.8,
       "rh_media": 55.4,
-      "vento_max": 1265.4
+      "vento_max": 25.7
     },
     {
       "data": "2026-08-13",
@@ -325,7 +325,7 @@
       "t_max": 26.0,
       "t_min": 19.5,
       "rh_media": 60.6,
-      "vento_max": 1184.4
+      "vento_max": 23.2
     },
     {
       "data": "2026-08-14",
@@ -334,7 +334,7 @@
       "t_max": 25.8,
       "t_min": 18.5,
       "rh_media": 64.7,
-      "vento_max": 1260.0
+      "vento_max": 31.0
     },
     {
       "data": "2026-08-15",
@@ -343,7 +343,7 @@
       "t_max": 26.0,
       "t_min": 17.8,
       "rh_media": 63.8,
-      "vento_max": 1211.4
+      "vento_max": 20.3
     },
     {
       "data": "2026-08-16",
@@ -352,7 +352,7 @@
       "t_max": 27.0,
       "t_min": 13.2,
       "rh_media": 69.4,
-      "vento_max": 1260.0
+      "vento_max": 38.0
     },
     {
       "data": "2026-08-17",
@@ -361,7 +361,7 @@
       "t_max": 22.2,
       "t_min": 14.0,
       "rh_media": 62.3,
-      "vento_max": 1227.6
+      "vento_max": 22.5
     },
     {
       "data": "2026-08-18",
@@ -370,7 +370,7 @@
       "t_max": 24.5,
       "t_min": 17.3,
       "rh_media": 46.3,
-      "vento_max": 1270.8
+      "vento_max": 21.8
     },
     {
       "data": "2026-08-19",
@@ -379,7 +379,7 @@
       "t_max": 23.2,
       "t_min": 15.6,
       "rh_media": 66.4,
-      "vento_max": 1242.0
+      "vento_max": 23.9
     },
     {
       "data": "2026-08-20",
@@ -388,7 +388,7 @@
       "t_max": 17.6,
       "t_min": 12.8,
       "rh_media": 90.9,
-      "vento_max": 1227.6
+      "vento_max": 38.2
     },
     {
       "data": "2026-08-21",
@@ -397,7 +397,7 @@
       "t_max": 15.9,
       "t_min": 11.7,
       "rh_media": 85.4,
-      "vento_max": 1272.6
+      "vento_max": 34.2
     },
     {
       "data": "2026-08-22",
@@ -406,7 +406,7 @@
       "t_max": 22.4,
       "t_min": 11.3,
       "rh_media": 56.8,
-      "vento_max": 1143.0
+      "vento_max": 22.3
     },
     {
       "data": "2026-08-23",
@@ -415,7 +415,7 @@
       "t_max": 20.9,
       "t_min": 13.9,
       "rh_media": 69.2,
-      "vento_max": 1234.8
+      "vento_max": 21.6
     },
     {
       "data": "2026-08-24",
@@ -424,7 +424,7 @@
       "t_max": 20.9,
       "t_min": 13.2,
       "rh_media": 77.4,
-      "vento_max": 1206.0
+      "vento_max": 45.5
     },
     {
       "data": "2026-08-25",
@@ -433,7 +433,7 @@
       "t_max": 19.7,
       "t_min": 13.1,
       "rh_media": 91.3,
-      "vento_max": 1242.0
+      "vento_max": 22.3
     },
     {
       "data": "2026-08-26",
@@ -442,7 +442,7 @@
       "t_max": 21.4,
       "t_min": 14.4,
       "rh_media": 82.6,
-      "vento_max": 1218.6
+      "vento_max": 19.1
     },
     {
       "data": "2026-08-27",
@@ -451,7 +451,7 @@
       "t_max": 21.8,
       "t_min": 16.1,
       "rh_media": 75.5,
-      "vento_max": 1132.2
+      "vento_max": 19.6
     },
     {
       "data": "2026-08-28",
@@ -460,7 +460,7 @@
       "t_max": 22.0,
       "t_min": 16.3,
       "rh_media": 82.5,
-      "vento_max": 1224.0
+      "vento_max": 39.8
     },
     {
       "data": "2026-08-29",
@@ -469,7 +469,7 @@
       "t_max": 21.9,
       "t_min": 14.2,
       "rh_media": 71.9,
-      "vento_max": 1243.8
+      "vento_max": 21.6
     },
     {
       "data": "2026-08-30",
@@ -478,7 +478,7 @@
       "t_max": 21.6,
       "t_min": 15.3,
       "rh_media": 71.2,
-      "vento_max": 1276.2
+      "vento_max": 17.8
     },
     {
       "data": "2026-08-31",
@@ -487,7 +487,7 @@
       "t_max": 23.0,
       "t_min": 16.2,
       "rh_media": 67.5,
-      "vento_max": 1260.0
+      "vento_max": 17.5
     },
     {
       "data": "2026-09-01",
@@ -496,7 +496,7 @@
       "t_max": 20.9,
       "t_min": 15.5,
       "rh_media": 68.9,
-      "vento_max": 1056.6
+      "vento_max": 25.4
     },
     {
       "data": "2026-09-02",
@@ -505,7 +505,7 @@
       "t_max": 21.7,
       "t_min": 15.1,
       "rh_media": 73.6,
-      "vento_max": 1270.8
+      "vento_max": 23.8
     },
     {
       "data": "2026-09-03",
@@ -514,7 +514,7 @@
       "t_max": 23.7,
       "t_min": 15.8,
       "rh_media": 47.9,
-      "vento_max": 1236.6
+      "vento_max": 22.7
     },
     {
       "data": "2026-09-04",
@@ -523,7 +523,7 @@
       "t_max": 24.3,
       "t_min": 17.9,
       "rh_media": 51.3,
-      "vento_max": 1265.4
+      "vento_max": 22.7
     },
     {
       "data": "2026-09-05",
@@ -532,7 +532,7 @@
       "t_max": 27.0,
       "t_min": 17.5,
       "rh_media": 47.4,
-      "vento_max": 1279.8
+      "vento_max": 24.5
     },
     {
       "data": "2026-09-06",
@@ -541,7 +541,7 @@
       "t_max": 23.1,
       "t_min": 17.5,
       "rh_media": 57.2,
-      "vento_max": 1234.8
+      "vento_max": 25.4
     },
     {
       "data": "2026-09-07",
@@ -550,7 +550,7 @@
       "t_max": 23.0,
       "t_min": 16.9,
       "rh_media": 77.7,
-      "vento_max": 1256.4
+      "vento_max": 20.2
     },
     {
       "data": "2026-09-08",
@@ -559,7 +559,7 @@
       "t_max": 23.3,
       "t_min": 14.0,
       "rh_media": 80.4,
-      "vento_max": 1272.6
+      "vento_max": 30.2
     },
     {
       "data": "2026-09-09",
@@ -568,7 +568,7 @@
       "t_max": 19.1,
       "t_min": 11.1,
       "rh_media": 86.6,
-      "vento_max": 1252.8
+      "vento_max": 35.3
     },
     {
       "data": "2026-09-10",
@@ -577,7 +577,7 @@
       "t_max": 15.7,
       "t_min": 9.5,
       "rh_media": 81.5,
-      "vento_max": 1220.4
+      "vento_max": 40.3
     },
     {
       "data": "2026-09-11",
@@ -586,7 +586,7 @@
       "t_max": 18.6,
       "t_min": 10.2,
       "rh_media": 86.2,
-      "vento_max": 1218.6
+      "vento_max": 20.7
     },
     {
       "data": "2026-09-12",
@@ -595,7 +595,7 @@
       "t_max": 17.2,
       "t_min": 10.9,
       "rh_media": 83.5,
-      "vento_max": 1260.0
+      "vento_max": 21.1
     },
     {
       "data": "2026-09-13",
@@ -604,7 +604,7 @@
       "t_max": 17.9,
       "t_min": 11.5,
       "rh_media": 87.1,
-      "vento_max": 1247.4
+      "vento_max": 19.1
     },
     {
       "data": "2026-09-14",
@@ -613,7 +613,7 @@
       "t_max": 23.4,
       "t_min": 14.4,
       "rh_media": 59.1,
-      "vento_max": 1278.0
+      "vento_max": 13.1
     },
     {
       "data": "2026-09-15",
@@ -622,7 +622,7 @@
       "t_max": 18.7,
       "t_min": 13.7,
       "rh_media": 86.4,
-      "vento_max": 1274.4
+      "vento_max": 22.1
     },
     {
       "data": "2026-09-16",
@@ -631,7 +631,7 @@
       "t_max": 18.1,
       "t_min": 12.7,
       "rh_media": 92.8,
-      "vento_max": 1126.8
+      "vento_max": 23.8
     },
     {
       "data": "2026-09-17",
@@ -640,7 +640,7 @@
       "t_max": 18.3,
       "t_min": 11.3,
       "rh_media": 88.6,
-      "vento_max": 1089.0
+      "vento_max": 23.2
     },
     {
       "data": "2026-09-18",
@@ -649,7 +649,7 @@
       "t_max": 14.8,
       "t_min": 11.4,
       "rh_media": 93.2,
-      "vento_max": 1242.0
+      "vento_max": 19.4
     },
     {
       "data": "2026-09-19",
@@ -658,7 +658,7 @@
       "t_max": 17.9,
       "t_min": 10.5,
       "rh_media": 82.1,
-      "vento_max": 1126.8
+      "vento_max": 17.6
     },
     {
       "data": "2026-09-20",
@@ -667,7 +667,7 @@
       "t_max": 19.5,
       "t_min": 12.6,
       "rh_media": 76.8,
-      "vento_max": 1224.0
+      "vento_max": 13.3
     },
     {
       "data": "2026-09-21",
@@ -676,7 +676,7 @@
       "t_max": 21.9,
       "t_min": 13.6,
       "rh_media": 37.8,
-      "vento_max": 1263.6
+      "vento_max": 21.8
     },
     {
       "data": "2026-09-22",
@@ -685,7 +685,7 @@
       "t_max": 18.9,
       "t_min": 10.1,
       "rh_media": 49.2,
-      "vento_max": 1278.0
+      "vento_max": 21.2
     },
     {
       "data": "2026-09-23",
@@ -694,7 +694,7 @@
       "t_max": 14.2,
       "t_min": 8.9,
       "rh_media": 80.7,
-      "vento_max": 1245.6
+      "vento_max": 21.1
     },
     {
       "data": "2026-09-24",
@@ -702,8 +702,8 @@
       "t_media": 15.7,
       "t_max": 20.1,
       "t_min": 10.3,
-      "rh_media": 50.9,
-      "vento_max": 1267.2
+      "rh_media": 50.8,
+      "vento_max": 30.2
     }
   ]
 }
