@@ -12,7 +12,13 @@ ID_STAZIONE = "1545"
 
 def get_sensor_ids_for_station(id_stazione: str) -> Dict[str, str]:
     params = {"$where": f"idstazione = '{id_stazione}'", "$limit": 50}
-    response = requests.get(ENDPOINT_SENSORS_ANAGRAFICA, params=params, timeout=20)
+    
+    headers = {}
+    app_token = os.environ.get("ARPA_TOKEN")
+    if app_token:
+        headers["X-App-Token"] = app_token
+      
+    response = requests.get(ENDPOINT_SENSORS_ANAGRAFICA, params=params, headers=headers, timeout=20)
     response.raise_for_status()
     mappa = {}
     for s in response.json():
@@ -31,7 +37,13 @@ def download_weather_history(mappa_sensori: Dict[str, str], days: int = 45) -> p
         "$where": f"idsensore in ('{id_list}') AND data >= '{start_date}' AND valore != -9999",
         "$limit": 50000, "$order": "data ASC"
     }
-    response = requests.get(ENDPOINT_METEO_DATA, params=params, timeout=30)
+     
+    headers = {}
+    app_token = os.environ.get("ARPA_TOKEN")
+    if app_token:
+        headers["X-App-Token"] = app_token
+      
+    response = requests.get(ENDPOINT_METEO_DATA, params=params, headers=headers, timeout=30)
     response.raise_for_status()
     records = response.json()
     if not records: return pd.DataFrame()
