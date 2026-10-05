@@ -28,6 +28,8 @@ jobs:
           pip install -r requirements.txt
 
       - name: Esegui elaborazione
+        env:
+          ARPA_TOKEN: ${{ secrets.ARPA_TOKEN }}
         run: |
           python main.py
 
@@ -35,8 +37,8 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/previsioni.json
+          git add data/
           git commit -m "Auto-update previsioni meteo funghi [skip ci]" || exit 0
+          git pull --rebase origin main
           git push
-          
 
