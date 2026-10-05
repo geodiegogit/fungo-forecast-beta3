@@ -1,0 +1,407 @@
+[
+  {
+    "data": "2026-08-21",
+    "pioggia_mm": 39.6,
+    "t_media": 13.4,
+    "t_max": 15.9,
+    "t_min": 11.7,
+    "rh_media": 85.4,
+    "vento_max": 34.2
+  },
+  {
+    "data": "2026-08-22",
+    "pioggia_mm": 0.0,
+    "t_media": 16.3,
+    "t_max": 22.4,
+    "t_min": 11.3,
+    "rh_media": 56.8,
+    "vento_max": 22.3
+  },
+  {
+    "data": "2026-08-23",
+    "pioggia_mm": 0.0,
+    "t_media": 16.5,
+    "t_max": 20.9,
+    "t_min": 13.9,
+    "rh_media": 69.2,
+    "vento_max": 21.6
+  },
+  {
+    "data": "2026-08-24",
+    "pioggia_mm": 7.8,
+    "t_media": 17.2,
+    "t_max": 20.9,
+    "t_min": 13.2,
+    "rh_media": 77.4,
+    "vento_max": 45.5
+  },
+  {
+    "data": "2026-08-25",
+    "pioggia_mm": 42.6,
+    "t_media": 15.7,
+    "t_max": 19.7,
+    "t_min": 13.1,
+    "rh_media": 91.3,
+    "vento_max": 22.3
+  },
+  {
+    "data": "2026-08-26",
+    "pioggia_mm": 0.0,
+    "t_media": 17.8,
+    "t_max": 21.4,
+    "t_min": 14.4,
+    "rh_media": 82.6,
+    "vento_max": 19.1
+  },
+  {
+    "data": "2026-08-27",
+    "pioggia_mm": 0.0,
+    "t_media": 19.3,
+    "t_max": 21.8,
+    "t_min": 16.1,
+    "rh_media": 75.5,
+    "vento_max": 19.6
+  },
+  {
+    "data": "2026-08-28",
+    "pioggia_mm": 11.2,
+    "t_media": 18.6,
+    "t_max": 22.0,
+    "t_min": 16.3,
+    "rh_media": 82.5,
+    "vento_max": 39.8
+  },
+  {
+    "data": "2026-08-29",
+    "pioggia_mm": 0.2,
+    "t_media": 18.0,
+    "t_max": 21.9,
+    "t_min": 14.2,
+    "rh_media": 71.9,
+    "vento_max": 21.6
+  },
+  {
+    "data": "2026-08-30",
+    "pioggia_mm": 0.0,
+    "t_media": 18.4,
+    "t_max": 21.6,
+    "t_min": 15.3,
+    "rh_media": 71.2,
+    "vento_max": 17.8
+  },
+  {
+    "data": "2026-08-31",
+    "pioggia_mm": 0.0,
+    "t_media": 19.1,
+    "t_max": 23.0,
+    "t_min": 16.2,
+    "rh_media": 67.5,
+    "vento_max": 17.5
+  },
+  {
+    "data": "2026-09-01",
+    "pioggia_mm": 0.0,
+    "t_media": 17.9,
+    "t_max": 20.9,
+    "t_min": 15.5,
+    "rh_media": 68.9,
+    "vento_max": 25.4
+  },
+  {
+    "data": "2026-09-02",
+    "pioggia_mm": 0.0,
+    "t_media": 18.5,
+    "t_max": 21.7,
+    "t_min": 15.1,
+    "rh_media": 73.6,
+    "vento_max": 23.8
+  },
+  {
+    "data": "2026-09-03",
+    "pioggia_mm": 0.0,
+    "t_media": 19.9,
+    "t_max": 23.7,
+    "t_min": 15.8,
+    "rh_media": 47.9,
+    "vento_max": 22.7
+  },
+  {
+    "data": "2026-09-04",
+    "pioggia_mm": 0.0,
+    "t_media": 21.1,
+    "t_max": 24.3,
+    "t_min": 17.9,
+    "rh_media": 51.3,
+    "vento_max": 22.7
+  },
+  {
+    "data": "2026-09-05",
+    "pioggia_mm": 0.0,
+    "t_media": 21.7,
+    "t_max": 27.0,
+    "t_min": 17.5,
+    "rh_media": 47.4,
+    "vento_max": 24.5
+  },
+  {
+    "data": "2026-09-06",
+    "pioggia_mm": 0.0,
+    "t_media": 20.1,
+    "t_max": 23.1,
+    "t_min": 17.5,
+    "rh_media": 57.2,
+    "vento_max": 25.4
+  },
+  {
+    "data": "2026-09-07",
+    "pioggia_mm": 0.0,
+    "t_media": 19.7,
+    "t_max": 23.0,
+    "t_min": 16.9,
+    "rh_media": 77.7,
+    "vento_max": 20.2
+  },
+  {
+    "data": "2026-09-08",
+    "pioggia_mm": 37.4,
+    "t_media": 19.5,
+    "t_max": 23.3,
+    "t_min": 14.0,
+    "rh_media": 80.4,
+    "vento_max": 30.2
+  },
+  {
+    "data": "2026-09-09",
+    "pioggia_mm": 57.0,
+    "t_media": 14.0,
+    "t_max": 19.1,
+    "t_min": 11.1,
+    "rh_media": 86.6,
+    "vento_max": 35.3
+  },
+  {
+    "data": "2026-09-10",
+    "pioggia_mm": 24.6,
+    "t_media": 12.1,
+    "t_max": 15.7,
+    "t_min": 9.5,
+    "rh_media": 81.5,
+    "vento_max": 40.3
+  },
+  {
+    "data": "2026-09-11",
+    "pioggia_mm": 1.6,
+    "t_media": 13.8,
+    "t_max": 18.6,
+    "t_min": 10.2,
+    "rh_media": 86.2,
+    "vento_max": 20.7
+  },
+  {
+    "data": "2026-09-12",
+    "pioggia_mm": 0.0,
+    "t_media": 14.0,
+    "t_max": 17.2,
+    "t_min": 10.9,
+    "rh_media": 83.5,
+    "vento_max": 21.1
+  },
+  {
+    "data": "2026-09-13",
+    "pioggia_mm": 0.2,
+    "t_media": 14.4,
+    "t_max": 17.9,
+    "t_min": 11.5,
+    "rh_media": 87.1,
+    "vento_max": 19.1
+  },
+  {
+    "data": "2026-09-14",
+    "pioggia_mm": 0.0,
+    "t_media": 18.3,
+    "t_max": 23.4,
+    "t_min": 14.4,
+    "rh_media": 59.1,
+    "vento_max": 13.1
+  },
+  {
+    "data": "2026-09-15",
+    "pioggia_mm": 0.0,
+    "t_media": 15.6,
+    "t_max": 18.7,
+    "t_min": 13.7,
+    "rh_media": 86.4,
+    "vento_max": 22.1
+  },
+  {
+    "data": "2026-09-16",
+    "pioggia_mm": 3.4,
+    "t_media": 15.3,
+    "t_max": 18.1,
+    "t_min": 12.7,
+    "rh_media": 92.8,
+    "vento_max": 23.8
+  },
+  {
+    "data": "2026-09-17",
+    "pioggia_mm": 0.2,
+    "t_media": 13.5,
+    "t_max": 18.3,
+    "t_min": 11.3,
+    "rh_media": 88.6,
+    "vento_max": 23.2
+  },
+  {
+    "data": "2026-09-18",
+    "pioggia_mm": 6.2,
+    "t_media": 12.3,
+    "t_max": 14.8,
+    "t_min": 11.4,
+    "rh_media": 93.2,
+    "vento_max": 19.4
+  },
+  {
+    "data": "2026-09-19",
+    "pioggia_mm": 0.0,
+    "t_media": 14.3,
+    "t_max": 17.9,
+    "t_min": 10.5,
+    "rh_media": 82.1,
+    "vento_max": 17.6
+  },
+  {
+    "data": "2026-09-20",
+    "pioggia_mm": 0.0,
+    "t_media": 16.1,
+    "t_max": 19.5,
+    "t_min": 12.6,
+    "rh_media": 76.8,
+    "vento_max": 13.3
+  },
+  {
+    "data": "2026-09-21",
+    "pioggia_mm": 0.0,
+    "t_media": 17.0,
+    "t_max": 21.9,
+    "t_min": 13.6,
+    "rh_media": 37.8,
+    "vento_max": 21.8
+  },
+  {
+    "data": "2026-09-22",
+    "pioggia_mm": 0.0,
+    "t_media": 14.4,
+    "t_max": 18.9,
+    "t_min": 10.1,
+    "rh_media": 49.2,
+    "vento_max": 21.2
+  },
+  {
+    "data": "2026-09-23",
+    "pioggia_mm": 0.0,
+    "t_media": 11.0,
+    "t_max": 14.2,
+    "t_min": 8.9,
+    "rh_media": 80.7,
+    "vento_max": 21.1
+  },
+  {
+    "data": "2026-09-24",
+    "pioggia_mm": 0.0,
+    "t_media": 15.7,
+    "t_max": 20.1,
+    "t_min": 10.3,
+    "rh_media": 50.8,
+    "vento_max": 30.2
+  },
+  {
+    "data": "2026-09-25",
+    "pioggia_mm": 0.0,
+    "t_media": 11.4,
+    "t_max": 14.7,
+    "t_min": 8.9,
+    "rh_media": 89.0,
+    "vento_max": 22.7
+  },
+  {
+    "data": "2026-09-26",
+    "pioggia_mm": 0.0,
+    "t_media": 11.8,
+    "t_max": 15.9,
+    "t_min": 9.4,
+    "rh_media": 87.7,
+    "vento_max": 14.6
+  },
+  {
+    "data": "2026-09-27",
+    "pioggia_mm": 0.0,
+    "t_media": 13.2,
+    "t_max": 16.6,
+    "t_min": 10.1,
+    "rh_media": 84.9,
+    "vento_max": 14.2
+  },
+  {
+    "data": "2026-09-28",
+    "pioggia_mm": 0.0,
+    "t_media": 14.0,
+    "t_max": 17.5,
+    "t_min": 11.6,
+    "rh_media": 86.4,
+    "vento_max": 13.7
+  },
+  {
+    "data": "2026-09-29",
+    "pioggia_mm": 0.0,
+    "t_media": 13.6,
+    "t_max": 17.2,
+    "t_min": 12.0,
+    "rh_media": 87.1,
+    "vento_max": 16.2
+  },
+  {
+    "data": "2026-09-30",
+    "pioggia_mm": 0.0,
+    "t_media": 13.4,
+    "t_max": 16.9,
+    "t_min": 11.1,
+    "rh_media": 83.6,
+    "vento_max": 16.4
+  },
+  {
+    "data": "2026-10-01",
+    "pioggia_mm": 0.0,
+    "t_media": 12.9,
+    "t_max": 15.9,
+    "t_min": 11.4,
+    "rh_media": 88.2,
+    "vento_max": 13.3
+  },
+  {
+    "data": "2026-10-02",
+    "pioggia_mm": 0.0,
+    "t_media": 13.6,
+    "t_max": 17.0,
+    "t_min": 11.9,
+    "rh_media": 84.2,
+    "vento_max": 16.2
+  },
+  {
+    "data": "2026-10-03",
+    "pioggia_mm": 0.0,
+    "t_media": 12.6,
+    "t_max": 16.4,
+    "t_min": 10.0,
+    "rh_media": 76.4,
+    "vento_max": 21.2
+  },
+  {
+    "data": "2026-10-04",
+    "pioggia_mm": 0.0,
+    "t_media": 13.0,
+    "t_max": 16.3,
+    "t_min": 10.4,
+    "rh_media": 76.6,
+    "vento_max": 17.6
+  }
+]
