@@ -403,5 +403,32 @@
     "t_min": 10.4,
     "rh_media": 76.6,
     "vento_max": 17.6
+  },
+  {
+    "data": "2026-10-05",
+    "pioggia_mm": 0.0,
+    "t_media": 12.7,
+    "t_max": 16.6,
+    "t_min": 11.0,
+    "rh_media": 80.1,
+    "vento_max": 18.0
+  },
+  {
+    "data": "2026-10-06",
+    "pioggia_mm": 10.2,
+    "t_media": 11.6,
+    "t_max": 15.6,
+    "t_min": 9.2,
+    "rh_media": 80.5,
+    "vento_max": 16.6
+  },
+  {
+    "data": "2026-10-07",
+    "pioggia_mm": 15.4,
+    "t_media": 9.8,
+    "t_max": 10.9,
+    "t_min": 8.1,
+    "rh_media": 88.6,
+    "vento_max": 16.4
   }
 ]
