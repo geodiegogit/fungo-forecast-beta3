@@ -1,145 +1,138 @@
 {
-  "ultimo_aggiornamento": "2026-10-22 05:40:46",
+  "ultimo_aggiornamento": "2026-10-24 05:18:09",
   "stazione": {
     "id": "1545",
     "nome": "San Siro",
     "quota_m": 1285
   },
   "diagnosi_meteo": {
-    "t_max_attuale": 10.9,
-    "t_min_attuale": 4.0,
-    "rh_media_attuale": 96.1,
-    "rh_media_inerzia": 88.4,
-    "vento_max_attuale": 33.3,
-    "pioggia_oggi": 87.8,
+    "t_max_attuale": 6.5,
+    "t_min_attuale": 2.6,
+    "rh_media_attuale": 73.6,
+    "rh_media_inerzia": 75.4,
+    "vento_max_attuale": 13.1,
+    "pioggia_oggi": 2.8,
     "eventi": [
       {
         "indice": 48,
         "data": "2026-10-08",
         "pioggia": 49.8,
-        "giorni_da_evento": 13,
+        "giorni_da_evento": 15,
         "ritardo": 0,
         "soglia": 35.0,
-        "smorzamento": 1.0,
+        "smorzamento": 0.75,
         "delta_t_shock": 8.100000000000001
       },
       {
         "indice": 61,
         "data": "2026-10-21",
         "pioggia": 100.0,
-        "giorni_da_evento": 0,
+        "giorni_da_evento": 2,
         "ritardo": 3,
         "soglia": 40.0,
-        "smorzamento": 0.9,
-        "delta_t_shock": 9.5
+        "smorzamento": 0.675,
+        "delta_t_shock": 10.9
       }
     ],
     "rischio_senescenza": false,
     "evento_rilevato": true,
     "data_evento": "2026-10-21",
-    "giorni_da_evento": 0,
+    "giorni_da_evento": 2,
     "ritardo_siccita_applicato": 3
   },
   "zone": [
     {
       "zona": "Camnasco",
-      "indice_buttata": 0.4,
-      "t_min_stimata": 7.5,
-      "t_max_stimata": 16.9,
-      "giorni_mancanti_al_picco": 7,
-      "stato": "Incubazione (7 gg)",
+      "indice_buttata": 0.2,
+      "t_min_stimata": 6.1,
+      "t_max_stimata": 12.5,
+      "giorni_mancanti_al_picco": 5,
+      "stato": "Incubazione (5 gg)",
       "onde": [
         {
-          "giorni_mancanti_da_ieri": -7,
-          "indice_picco": 33.0
+          "giorni_mancanti_da_ieri": -9,
+          "indice_picco": 3.0
         },
         {
-          "giorni_mancanti_da_ieri": 7,
-          "indice_picco": 34.7
+          "giorni_mancanti_da_ieri": 5,
+          "indice_picco": 3.1
         }
       ]
     },
     {
       "zona": "Betulle SE",
-      "indice_buttata": 0.6,
-      "t_min_stimata": 4.4,
-      "t_max_stimata": 13.8,
-      "giorni_mancanti_al_picco": 12,
-      "stato": "Incubazione (12 gg)",
+      "indice_buttata": 0.0,
+      "t_min_stimata": 3.0,
+      "t_max_stimata": 9.4,
+      "giorni_mancanti_al_picco": 10,
+      "stato": "Incubazione (10 gg)",
       "onde": [
         {
-          "giorni_mancanti_da_ieri": -4,
-          "indice_picco": 3.2
+          "giorni_mancanti_da_ieri": -6,
+          "indice_picco": 0.0
         },
         {
-          "giorni_mancanti_da_ieri": 12,
-          "indice_picco": 3.4
+          "giorni_mancanti_da_ieri": 10,
+          "indice_picco": 0.0
         }
       ]
     },
     {
       "zona": "Betulle NE",
-      "indice_buttata": 0.1,
-      "t_min_stimata": 4.9,
-      "t_max_stimata": 10.8,
-      "giorni_mancanti_al_picco": 11,
-      "stato": "Incubazione (11 gg)",
+      "indice_buttata": 0.0,
+      "t_min_stimata": 3.5,
+      "t_max_stimata": 6.4,
+      "giorni_mancanti_al_picco": 9,
+      "stato": "Incubazione (9 gg)",
       "onde": [
         {
-          "giorni_mancanti_da_ieri": -5,
-          "indice_picco": 2.0
+          "giorni_mancanti_da_ieri": -7,
+          "indice_picco": 0.0
         },
         {
-          "giorni_mancanti_da_ieri": 11,
-          "indice_picco": 2.1
+          "giorni_mancanti_da_ieri": 9,
+          "indice_picco": 0.0
         }
       ]
     },
     {
       "zona": "Faggi Ovest",
       "indice_buttata": 0.0,
-      "t_min_stimata": 2.7,
-      "t_max_stimata": 7.6,
-      "giorni_mancanti_al_picco": 15,
+      "t_min_stimata": 1.3,
+      "t_max_stimata": 3.2,
+      "giorni_mancanti_al_picco": 13,
       "stato": "Blocco freddo",
       "onde": [
         {
-          "giorni_mancanti_da_ieri": -1,
+          "giorni_mancanti_da_ieri": -3,
           "indice_picco": 0.0
         },
         {
-          "giorni_mancanti_da_ieri": 15,
+          "giorni_mancanti_da_ieri": 13,
           "indice_picco": 0.0
         }
       ]
     },
     {
       "zona": "Abeti Nord",
-      "indice_buttata": 0.5,
-      "t_min_stimata": 1.2,
-      "t_max_stimata": 7.1,
-      "giorni_mancanti_al_picco": 16,
-      "stato": "Incubazione (16 gg)",
+      "indice_buttata": 0.0,
+      "t_min_stimata": -0.2,
+      "t_max_stimata": 2.7,
+      "giorni_mancanti_al_picco": 14,
+      "stato": "Blocco freddo",
       "onde": [
         {
-          "giorni_mancanti_da_ieri": 0,
-          "indice_picco": 0.5
+          "giorni_mancanti_da_ieri": -2,
+          "indice_picco": 0.0
         },
         {
-          "giorni_mancanti_da_ieri": 16,
-          "indice_picco": 0.5
+          "giorni_mancanti_da_ieri": 14,
+          "indice_picco": 0.0
         }
       ]
     }
   ],
   "proiezioni_salvate": {
-    "2026-09-29": {
-      "Camnasco": 0.0,
-      "Betulle SE": 0.0,
-      "Betulle NE": 0.0,
-      "Faggi Ovest": 0.1,
-      "Abeti Nord": 0.2
-    },
     "2026-09-30": {
       "Camnasco": 0.0,
       "Betulle SE": 0.0,
@@ -237,6 +230,13 @@
       "Betulle NE": 0.1,
       "Faggi Ovest": 0.0,
       "Abeti Nord": 0.5
+    },
+    "2026-10-24": {
+      "Camnasco": 0.2,
+      "Betulle SE": 0.0,
+      "Betulle NE": 0.0,
+      "Faggi Ovest": 0.0,
+      "Abeti Nord": 0.0
     }
   },
   "storico_completo": [
@@ -797,6 +797,24 @@
       "t_min": 4.0,
       "rh_media": 96.1,
       "vento_max": 33.3
+    },
+    {
+      "data": "2026-10-22",
+      "pioggia_mm": 0.0,
+      "t_media": 6.7,
+      "t_max": 10.1,
+      "t_min": 4.4,
+      "rh_media": 44.8,
+      "vento_max": 22.1
+    },
+    {
+      "data": "2026-10-23",
+      "pioggia_mm": 2.8,
+      "t_media": 5.0,
+      "t_max": 6.5,
+      "t_min": 2.6,
+      "rh_media": 73.6,
+      "vento_max": 13.1
     }
   ]
 }
