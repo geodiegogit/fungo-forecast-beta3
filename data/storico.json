@@ -592,5 +592,14 @@
     "t_min": 2.5,
     "rh_media": 58.4,
     "vento_max": 17.5
+  },
+  {
+    "data": "2026-10-26",
+    "pioggia_mm": 0.0,
+    "t_media": 8.7,
+    "t_max": 13.8,
+    "t_min": 6.1,
+    "rh_media": 45.0,
+    "vento_max": 21.6
   }
 ]
